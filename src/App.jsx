@@ -1,37 +1,38 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+
+import { Routes, Route } from "react-router-dom";
 import { Button } from "@mui/material";
+
+import { Footer } from "./components/Footer";
+import { TopBar } from "./components/TopBar";
+
+import { Book } from "./scenes/Book";
+import { Books } from "./scenes/Books";
+import { Landing } from "./scenes/Landing";
+import { NotFound } from "./scenes/NotFound";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button
-          variant="contained"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          count is {count}
-        </Button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <>
+      <TopBar />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/libros" element={<Books />} />
+        <Route path="/libros/:name" element={<Book />} />
+        <Route path="*" element={<NotFound />} />
+        {/* <Route path="/libros" element={<Books />} />
+        <Route path="/libros/:name" element={<Book />} />
+        <Route path="/media" element={<MediaPage />}>
+          <Route index element={<MediaSections />} />
+          <Route path="audio-video" element={<Media />} />
+          <Route path="fan-art" element={<FanArt />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />} /> */}
+      </Routes>
+      <Footer />
+    </>
   );
 }
 

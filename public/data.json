@@ -1,0 +1,49 @@
+{
+  "books": [
+    {
+      "name": "La Bestia",
+      "type": "Novela",
+      "genre": "Negro",
+      "ageRange": "12+",
+      "description": "Un niño nace con la marca de la bestia. Ha venido desde las tinieblas y tiene la protección del Diablo.",
+      "publicationDate": "2019",
+      "illustrator": "Maco Pacheco",
+      "publisher": "Ediciones de la Paz",
+      "image": "http://hugomitoire.com/mediafiles/portada_libros/image843_sRPPYgI.png",
+      "background": "http://hugomitoire.com/mediafiles/fondo_pantalla/bestiaBG.png"
+    },
+    {
+      "name": "La Chancha con Ruleros",
+      "type": "Novela",
+      "genre": "Infantil / Primeras lecturas",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi culpa magni perspiciatis facilis reiciendis commodi ipsum quae, consequatur sint eligendi earum sunt expedita sequi nesciunt temporibus placeat error, ex quidem.",
+      "image": "http://hugomitoire.com/mediafiles/portada_libros/image927.png",
+      "background": "https://4.bp.blogspot.com/-G_E93YoUbx4/Wk1--fyGkLI/AAAAAAAABkk/F_JSg3LW5HcUNqK2GduNvLv3l035DrAWQCPcBGAYYCw/s1600/chancha%2Bpag%2B015.jpg"
+    },
+    {
+      "name": "Cuentos de terror para Franco VIII",
+      "type": "Cuentos",
+      "genre": "Terror y Misterio",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi culpa magni perspiciatis facilis reiciendis commodi ipsum quae, consequatur sint eligendi earum sunt expedita sequi nesciunt temporibus placeat error, ex quidem.",
+      "image": "https://2.bp.blogspot.com/--iiWo8beHRo/Wl9GdhoAQWI/AAAAAAAABqU/5Phpb0CEEsoARCGmaWmog_X3E9c9QB_agCLcBGAs/s1600/Tapa%2Bcuentos%2Bde%2Bterror%2Bpara%2Bfranco%2BVIII.jpg",
+      "background": "https://4.bp.blogspot.com/-GXrsM6D4Euc/Wl9GbwwRz4I/AAAAAAAABqE/XKEUVIplLnUsiDVqH2y5Mx04qtdGhqjpQCLcBGAs/s1600/El%2Bgallo.jpg"
+    }
+  ],
+  "cards": [
+    {
+      "title": "La puerta del ropero",
+      "type": "Cuento",
+      "image": "https://1.bp.blogspot.com/-_uuyots-jVo/Wl9GdHiA4EI/AAAAAAAABqM/d535KAl50_4jRcWl3tapHWwIBf8JFd5ygCLcBGAs/s1600/La%2Bpuerta%2Bdel%2Bropero.jpg"
+    },
+    {
+      "title": "El cuco",
+      "type": "Cuento",
+      "image": "https://4.bp.blogspot.com/-AtnuSAdwlZ8/Wl9GbyalWPI/AAAAAAAABp8/cOoivjQIuQUeKuIRDWFvTOk0ugCEQZIuACLcBGAs/s320/El%2Bcuco.jpg"
+    },
+    {
+      "title": "Criaturas Celestes: Un encuentro inesperado",
+      "type": "Cuento",
+      "image": "http://4.bp.blogspot.com/-HZcfKBH2oX8/TaoW_Z7o4zI/AAAAAAAABAs/XCo1Oi2dsKw/s1600/C3+llegan+las+criaturas.jpg"
+    }
+  ]
+}
