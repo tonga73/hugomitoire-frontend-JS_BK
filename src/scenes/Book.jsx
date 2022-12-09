@@ -167,6 +167,20 @@ export const Book = () => {
             justifyContent="center"
             alignItems="center"
             minHeight="75vh"
+            sx={{
+              animation: "animate 2s infinite",
+              "@keyframes animate": {
+                "0%": {
+                  opacity: 1,
+                },
+                "50%": {
+                  opacity: 0.5,
+                },
+                "100%": {
+                  opacity: 1,
+                },
+              },
+            }}
           >
             <Typography variant="h5">Cargando...</Typography>
           </Box>
@@ -185,7 +199,12 @@ export const Book = () => {
           {/* START BOOK DETAILS */}
           <Box display="flex" flexDirection="column" rowGap={1.5} py={3}>
             <Box display="flex" flexDirection="column">
-              <Typography variant="caption" fontFamily="Cinzel">
+              <Typography
+                variant="caption"
+                textTransform="uppercase"
+                fontWeight={400}
+                fontFamily="Cinzel"
+              >
                 Edad Recomendada
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
@@ -193,7 +212,12 @@ export const Book = () => {
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
-              <Typography variant="caption" fontFamily="Cinzel">
+              <Typography
+                variant="caption"
+                textTransform="uppercase"
+                fontWeight={400}
+                fontFamily="Cinzel"
+              >
                 Sinópsis
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
@@ -201,7 +225,12 @@ export const Book = () => {
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
-              <Typography variant="caption" fontFamily="Cinzel">
+              <Typography
+                variant="caption"
+                textTransform="uppercase"
+                fontWeight={400}
+                fontFamily="Cinzel"
+              >
                 Género
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
@@ -209,7 +238,12 @@ export const Book = () => {
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
-              <Typography variant="caption" fontFamily="Cinzel">
+              <Typography
+                variant="caption"
+                textTransform="uppercase"
+                fontWeight={400}
+                fontFamily="Cinzel"
+              >
                 Fecha de Publicación
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
@@ -217,7 +251,12 @@ export const Book = () => {
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
-              <Typography variant="caption" fontFamily="Cinzel">
+              <Typography
+                variant="caption"
+                textTransform="uppercase"
+                fontWeight={400}
+                fontFamily="Cinzel"
+              >
                 Ilustraciones
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
@@ -225,7 +264,12 @@ export const Book = () => {
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
-              <Typography variant="caption" fontFamily="Cinzel">
+              <Typography
+                variant="caption"
+                textTransform="uppercase"
+                fontWeight={400}
+                fontFamily="Cinzel"
+              >
                 Editorial
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
@@ -236,7 +280,12 @@ export const Book = () => {
           {/* END BOOK DETAILS */}
           {/* START BOOK CHAPTERS LIST */}
           <Box display="flex" flexDirection="column" rowGap={1} py={3}>
-            <Typography variant="caption" fontFamily="Cinzel">
+            <Typography
+              variant="caption"
+              textTransform="uppercase"
+              fontWeight={400}
+              fontFamily="Cinzel"
+            >
               Capítulos
             </Typography>
 
@@ -275,7 +324,9 @@ export const Book = () => {
                         }
                       >
                         <ListItemText
-                          primary={`${e.numero_capitulo} | ${e.nombre}`}
+                          primary={
+                            <Typography fontFamily="Bellefair">{`${e.numero_capitulo} | ${e.nombre}`}</Typography>
+                          }
                         />
                         {e.fragmento.length > 5 ? (
                           <ListItemIcon>
