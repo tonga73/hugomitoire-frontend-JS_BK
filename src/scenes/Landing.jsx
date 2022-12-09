@@ -36,6 +36,7 @@ export const Landing = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo(0, 0);
   }, []);
   return (
     <>

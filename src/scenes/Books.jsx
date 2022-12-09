@@ -10,8 +10,8 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { FilterList } from "@mui/icons-material";
 
 import { motion } from "framer-motion";
@@ -44,7 +44,7 @@ export const Books = () => {
         gridTemplateColumns="repeat(12, minmax(0, 1fr))"
         gap={1.5}
       >
-        {books ? (
+        {books.length > 0 ? (
           books.map((book, index) => (
             <Box
               key={index}
@@ -67,6 +67,11 @@ export const Books = () => {
           ))
         ) : (
           <Box
+            gridColumn="span 12"
+            height="75vh"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
             sx={{
               animation: "animate 2s infinite",
               "@keyframes animate": {
@@ -82,7 +87,7 @@ export const Books = () => {
               },
             }}
           >
-            Cargando...
+            <Typography variant="h5">Cargando...</Typography>
           </Box>
         )}
       </Box>

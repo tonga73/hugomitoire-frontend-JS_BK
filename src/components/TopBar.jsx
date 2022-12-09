@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -13,9 +13,10 @@ import {
   Tooltip,
   MenuItem,
 } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+
 import MenuIcon from "@mui/icons-material/Menu";
 
+import { useScrollPosition } from "../utils/useScrollPosition";
 import { Navigation } from "./Navigation";
 
 import { motion } from "framer-motion";
@@ -26,6 +27,9 @@ export const TopBar = () => {
   const navigate = useNavigate();
   const [drawer, setDrawer] = React.useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [hideOnScroll, setHideOnScroll] = useState(true);
+  const [colorizeOnScroll, setColorizeOnScroll] = useState(false);
+  const rendersCount = useRef(0);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -35,23 +39,44 @@ export const TopBar = () => {
     setAnchorElUser(null);
   };
 
-  return (
+  useScrollPosition(
+    ({ prevPos, currPos }) => {
+      if (pathname === "/") {
+        const isShow = currPos.y > -430 || currPos.y <= -1601;
+        if (isShow !== hideOnScroll) setHideOnScroll(isShow);
+      }
+      const isBgColorized = currPos.y >= -3;
+      if (isBgColorized) {
+        setColorizeOnScroll(false);
+      } else {
+        setColorizeOnScroll(true);
+      }
+    },
+    [hideOnScroll],
+    null,
+    false,
+    300
+  );
+
+  return hideOnScroll ? (
     <AppBar
       id="header"
       component={motion.div}
       initial={{ opacity: 0, top: -50 }}
       animate={{ opacity: 1, top: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ duration: 0.3 }}
       sx={{ opacity: 0.7, boxShadow: 0 }}
       style={{
-        background:
-          "linear-gradient(to top, rgba(23, 23, 23,0) 0%, rgba(23, 23, 23,0.51) 51%, rgba(23, 23, 23,1) 100%)",
+        transition: "background ease 3ms",
+        background: colorizeOnScroll
+          ? "rgba(23, 23, 23, 1)"
+          : "linear-gradient(to top, rgba(23, 23, 23, 0) 0%, rgba(23, 23, 23,0.51) 51%, rgba(23, 23, 23,1) 100%)",
       }}
       position={pathname === "/" ? "fixed" : "sticky"}
     >
       <Container maxWidth="xl">
-        <Grid container>
-          <Grid item xs={2} lg={4}>
+        <Box display="grid" gridTemplateColumns="repeat(12, minmax(0, 1fr))">
+          <Box gridColumn={{ xs: "span 2", lg: "span 4" }}>
             <Toolbar disableGutters>
               <Box sx={{ display: { xs: "flex", lg: "none" } }}>
                 <IconButton
@@ -78,11 +103,9 @@ export const TopBar = () => {
                 <Navigation />
               </Box>
             </Toolbar>
-          </Grid>
-          <Grid
-            item
-            xs={8}
-            lg={4}
+          </Box>
+          <Box
+            gridColumn={{ xs: "span 8", lg: "span 4" }}
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -120,25 +143,23 @@ export const TopBar = () => {
             >
               Hugo Mitoire
             </Typography>
-          </Grid>
+          </Box>
 
-          <Grid
-            item
-            sx={{ display: { xs: "flex", lg: "flex" } }}
-            lg={4}
-            xs={2}
+          <Box
+            gridColumn={{ xs: "span 2", lg: "span 4" }}
             justifyContent="flex-end"
+            sx={{ display: { xs: "flex", lg: "flex" } }}
           >
             <Toolbar disableGutters>
               <Box sx={{ justifyContent: "end" }}>
                 {/* <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
-                    />
-                  </IconButton>
-                </Tooltip> */}
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="/static/images/avatar/2.jpg"
+                />
+              </IconButton>
+            </Tooltip> */}
                 <Menu
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
@@ -163,9 +184,9 @@ export const TopBar = () => {
                 </Menu>
               </Box>
             </Toolbar>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </AppBar>
-  );
+  ) : undefined;
 };
