@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import { RecordsCarousel } from "../components/RecordsCarousel";
-import { RecordCard } from "../components/RecordCard";
+import { ChapterTextCard } from "../components/ChapterTextCard";
 import { Banner } from "../components/Banner";
 import { ParticlesDefault } from "../components/ParticlesDefault";
 
-import { Container, Box, Grid } from "@mui/material";
+import { Container, Box } from "@mui/material";
 
 export const Landing = () => {
   const [data, setData] = useState([]);
@@ -36,20 +36,33 @@ export const Landing = () => {
 
   useEffect(() => {
     getData();
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, []);
   return (
     <>
       {books && <RecordsCarousel dataBook={books.map((book) => book)} />}
       <Container disableGutters>
-        <Grid container justifyContent="center" gap={3} sx={{ py: 15 }}>
+        <Box
+          display="grid"
+          gridTemplateColumns={{
+            xs: "repeat(1, minmax(0, 1fr))",
+            sm: "repeat(2, minmax(0, 1fr))",
+            lg: "repeat(3, minmax(0, 1fr))",
+          }}
+          gap={3}
+          sx={{
+            placeItems: "start",
+            justifyItems: "center",
+            py: 15,
+          }}
+        >
           {cards !== undefined &&
             cards.map((card, index) => (
-              <Grid key={index} item>
-                <RecordCard dataCard={card} />
-              </Grid>
+              <Box display="grid" key={index} sx={{ placeItems: "center" }}>
+                <ChapterTextCard dataCard={card} />
+              </Box>
             ))}
-        </Grid>
+        </Box>
         <Banner />
         <Box style={{ zIndex: -1, position: "relative" }}>
           <ParticlesDefault />
