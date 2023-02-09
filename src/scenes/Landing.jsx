@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { RecordsCarousel } from "../components/RecordsCarousel";
+import { BooksCarousel } from "../components/BooksCarousel";
 import { ChapterTextCard } from "../components/ChapterTextCard";
 import { Banner } from "../components/Banner";
 import { ParticlesDefault } from "../components/ParticlesDefault";
@@ -40,7 +40,7 @@ export const Landing = () => {
   }, []);
   return (
     <>
-      {books && <RecordsCarousel dataBook={books.map((book) => book)} />}
+      {books && <BooksCarousel dataBook={books.map((book) => book)} />}
       <Container disableGutters>
         <Box
           display="grid"

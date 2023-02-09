@@ -4,7 +4,7 @@ import { Grid, Box, Typography, Button } from "@mui/material";
 
 import { motion } from "framer-motion";
 
-export const RecordsCarousel = ({ dataBook }) => {
+export const BooksCarousel = ({ dataBook }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
