@@ -43,7 +43,7 @@ export const Books = () => {
             <Box
               key={index}
               gridColumn="span 3"
-              onClick={() => navigate(`/libros/${book.id}`)}
+              onClick={() => navigate(`/libro/${book.id}`)}
             >
               <Paper
                 component={motion.img}

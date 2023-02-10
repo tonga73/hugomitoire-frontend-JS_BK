@@ -15,6 +15,8 @@ import Typography from "@mui/material/Typography";
 
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 
+import { BookDetails } from "../components/BookDetails";
+
 import { selectBook } from "../store/slices/books.slice";
 
 import { getBook } from "../store/actions/books.actions";
@@ -24,7 +26,7 @@ export const Book = () => {
   const params = useParams();
   const [bookChapters, setBookChapters] = useState([]);
 
-  const book = useSelector((state) => state.books.book);
+  const book = useSelector((state) => state.books.book) || {};
 
   useEffect(() => {
     dispatch(getBook(params.id));
@@ -36,7 +38,9 @@ export const Book = () => {
       <Box
         sx={{
           backgroundImage: `url(${
-            import.meta.env.VITE_API_URL + book.secondaryImage.url
+            Object.values(book).length > 0
+              ? import.meta.env.VITE_API_URL + book.secondaryImage.url
+              : undefined
           })`,
           backgroundPosition: "center 60%",
           backgroundRepeat: "no-repeat",
@@ -81,187 +85,10 @@ export const Book = () => {
             </Box>
           </Box>
         ) : (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="75vh"
-            sx={{
-              animation: "animate 2s infinite",
-              "@keyframes animate": {
-                "0%": {
-                  opacity: 1,
-                },
-                "50%": {
-                  opacity: 0.5,
-                },
-                "100%": {
-                  opacity: 1,
-                },
-              },
-            }}
-          >
-            <Typography variant="h5">Cargando...</Typography>
-          </Box>
+          "S"
         )}
       </Box>
-      {Object.values(book).length > 0 ? (
-        <Box
-          component={Container}
-          display="grid"
-          gap={1.5}
-          gridTemplateColumns={{
-            xs: "repeat(1, minmax(0, 1fr))",
-            sm: "repeat(2, minmax(0, 1fr))",
-          }}
-        >
-          {/* START BOOK DETAILS */}
-          <Box display="flex" flexDirection="column" rowGap={1.5} py={3}>
-            <Box display="flex" flexDirection="column">
-              <Typography
-                variant="caption"
-                textTransform="uppercase"
-                fontWeight={400}
-                fontFamily="Cinzel"
-              >
-                Edad Recomendada
-              </Typography>
-              <Typography variant="h5" fontFamily="Bellefair">
-                {!!book.ageRange && book.ageRange}
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography
-                variant="caption"
-                textTransform="uppercase"
-                fontWeight={400}
-                fontFamily="Cinzel"
-              >
-                Sinópsis
-              </Typography>
-              <Typography variant="h5" fontFamily="Bellefair">
-                {book.description}
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography
-                variant="caption"
-                textTransform="uppercase"
-                fontWeight={400}
-                fontFamily="Cinzel"
-              >
-                Género
-              </Typography>
-              <Typography variant="h5" fontFamily="Bellefair">
-                {book.genre}
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography
-                variant="caption"
-                textTransform="uppercase"
-                fontWeight={400}
-                fontFamily="Cinzel"
-              >
-                Fecha de Publicación
-              </Typography>
-              <Typography variant="h5" fontFamily="Bellefair">
-                {book.publicationDate}
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography
-                variant="caption"
-                textTransform="uppercase"
-                fontWeight={400}
-                fontFamily="Cinzel"
-              >
-                Ilustraciones
-              </Typography>
-              <Typography variant="h5" fontFamily="Bellefair">
-                {book.illustrator}
-              </Typography>
-            </Box>
-            <Box display="flex" flexDirection="column">
-              <Typography
-                variant="caption"
-                textTransform="uppercase"
-                fontWeight={400}
-                fontFamily="Cinzel"
-              >
-                Editorial
-              </Typography>
-              <Typography variant="h5" fontFamily="Bellefair">
-                {book.publisher}
-              </Typography>
-            </Box>
-          </Box>
-          {/* END BOOK DETAILS */}
-          {/* START BOOK CHAPTERS LIST */}
-          <Box display="flex" flexDirection="column" rowGap={1} py={3}>
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Capítulos
-            </Typography>
-
-            {bookChapters === "loading" ? (
-              <Box
-                sx={{
-                  animation: "animate 2s infinite",
-                  "@keyframes animate": {
-                    "0%": {
-                      opacity: 1,
-                    },
-                    "50%": {
-                      opacity: 0.5,
-                    },
-                    "100%": {
-                      opacity: 1,
-                    },
-                  },
-                }}
-              >
-                "Cargando capitulos..."
-              </Box>
-            ) : (
-              <Box>
-                <List
-                  disablePadding
-                  sx={{ height: "400px", overflow: "scroll" }}
-                >
-                  {bookChapters.map((e, index) => (
-                    <ListItem key={index} component="div" disablePadding>
-                      <ListItemButton
-                        onClick={
-                          e.fragmento.length > 5
-                            ? () => alert(e.fragmento)
-                            : undefined
-                        }
-                      >
-                        <ListItemText
-                          primary={
-                            <Typography fontFamily="Bellefair">{`${e.numero_capitulo} | ${e.nombre}`}</Typography>
-                          }
-                        />
-                        {e.fragmento.length > 5 ? (
-                          <ListItemIcon>
-                            <FileOpenIcon />
-                          </ListItemIcon>
-                        ) : undefined}
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            )}
-          </Box>
-          {/* END BOOK CHAPTERS LIST */}
-        </Box>
-      ) : undefined}
+      <BookDetails />
     </Box>
   );
 };

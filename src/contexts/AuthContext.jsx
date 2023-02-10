@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 // creamos el contexto
 export const AuthContext = createContext({
-  isAuth: false,
+  isAuth: true,
   login: () => {},
   logout: () => {},
 });

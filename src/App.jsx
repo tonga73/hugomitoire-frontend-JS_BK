@@ -1,11 +1,10 @@
 import { useState, useContext } from "react";
 import PropTypes from "prop-types";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import { Button } from "@mui/material";
 
 import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
-import { ProtectedRoute } from "./utils/routeGuard";
 
 import { Footer } from "./components/Footer";
 import { TopBar } from "./components/TopBar";
@@ -23,23 +22,24 @@ function App() {
   return (
     <>
       <AuthContextProvider>
-        <TopBar />
+        {isAuth ? <TopBar /> : null}
         <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute isAuth={isAuth}>
-                <Landing />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/book" element={<Book />} />
-          <Route path="/books" element={<Books />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<NotFound />} />
+          {isAuth ? (
+            <>
+              <Route path="/" element={<Landing />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/libros" element={<Books />} />
+              <Route path="/libro/:id" element={<Book />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          ) : (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          )}
         </Routes>
-        <Footer />
+        {isAuth ? <Footer /> : null}
       </AuthContextProvider>
     </>
   );
