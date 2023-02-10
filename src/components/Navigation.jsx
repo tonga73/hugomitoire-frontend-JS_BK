@@ -1,33 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
 import { Box, Button } from "@mui/material";
 
-const pages = [
-  {
-    name: "Inicio",
-    path: "/",
-  },
-  {
-    name: "Bio",
-    path: "/bio",
-  },
-  {
-    name: "Libros",
-    path: "/libros",
-  },
-  {
-    name: "Media",
-    path: "/media",
-  },
-  {
-    name: "Contacto",
-    path: "/contacto",
-  },
-];
+import { selectBook, setBook } from "../store/slices/book.slice";
 
 export const Navigation = ({ vertical }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const book = useSelector(selectBook);
+
+  const pages = [
+    {
+      name: "Inicio",
+      path: "/",
+    },
+    {
+      name: "Bio",
+      path: "/bio",
+    },
+    {
+      name: "Libros",
+      path: "/libros",
+    },
+    {
+      name: "Media",
+      path: "/media",
+    },
+    {
+      name: "Contacto",
+      path: "/contacto",
+    },
+  ];
+
+  console.log(location);
+
+  useEffect(() => {
+    if (location.pathname !== `/libro/${book.id}`) {
+      dispatch(setBook({}));
+    }
+  }, [location.pathname, dispatch]);
+
   return (
     <Box display="flex" flexDirection={vertical ? "column" : undefined}>
       {pages.map((page, index) => (
