@@ -27,7 +27,7 @@ const Book = () => {
   const params = useParams();
   const [bookChapters, setBookChapters] = useState([]);
 
-  const book = useSelector(selectBook) || {};
+  const book = useSelector(selectBook);
 
   useEffect(() => {
     dispatch(getBook(params.id));
@@ -36,7 +36,7 @@ const Book = () => {
 
   return (
     <Box width="100%">
-      {book ? (
+      {Object.keys(book).length > 0 ? (
         <>
           <Box
             sx={{
