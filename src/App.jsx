@@ -1,39 +1,52 @@
-import { useState } from "react";
-
+import { useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { Routes, Route } from "react-router-dom";
+
 import { Button } from "@mui/material";
+
+import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./utils/routeGuard";
 
 import { Footer } from "./components/Footer";
 import { TopBar } from "./components/TopBar";
 
+import { Admin } from "./scenes/Admin";
 import { Book } from "./scenes/Book";
 import { Books } from "./scenes/Books";
 import { Landing } from "./scenes/Landing";
+import { Login } from "./scenes/Login";
 import { NotFound } from "./scenes/NotFound";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { isAuth } = useContext(AuthContext);
 
   return (
     <>
-      <TopBar />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/libros" element={<Books />} />
-        <Route path="/libros/:id" element={<Book />} />
-        <Route path="*" element={<NotFound />} />
-        {/* <Route path="/libros" element={<Books />} />
-        <Route path="/libros/:name" element={<Book />} />
-        <Route path="/media" element={<MediaPage />}>
-          <Route index element={<MediaSections />} />
-          <Route path="audio-video" element={<Media />} />
-          <Route path="fan-art" element={<FanArt />} />
-        </Route>
-        <Route path="*" element={<ErrorPage />} /> */}
-      </Routes>
-      <Footer />
+      <AuthContextProvider>
+        <TopBar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <Landing />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/book" element={<Book />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </AuthContextProvider>
     </>
   );
 }
+
+App.contextTypes = {
+  test: PropTypes.string,
+};
 
 export default App;

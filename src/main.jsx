@@ -16,7 +16,7 @@ import "@fontsource/roboto/700.css";
 import theme from "./theme";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <React.Fragment>
     <BrowserRouter>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
@@ -25,5 +25,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </ThemeProvider>
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.Fragment>
 );
