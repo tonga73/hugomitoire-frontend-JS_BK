@@ -15,13 +15,14 @@ import Typography from "@mui/material/Typography";
 
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 
+import { Loading } from "../components/Loading";
 import { BookDetails } from "../components/BookDetails";
 
 import { selectBook } from "../store/slices/books.slice";
 
 import { getBook } from "../store/actions/books.actions";
 
-export const Book = () => {
+const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const [bookChapters, setBookChapters] = useState([]);
@@ -35,60 +36,49 @@ export const Book = () => {
 
   return (
     <Box width="100%">
-      <Box
-        sx={{
-          backgroundImage: `url(${
-            Object.values(book).length > 0
-              ? import.meta.env.VITE_API_URL + book.secondaryImage.url
-              : undefined
-          })`,
-          backgroundPosition: "center 60%",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        {Object.values(book).length > 0 ? (
-          <Box sx={{ bgcolor: "rgba(23, 23, 23, 0.9)" }}>
-            <Box
-              component={Container}
-              disableGutters
-              display="grid"
-              gridTemplateColumns="repeat(5, minmax(0, 1fr))"
-              columnGap={1}
-              alignItems="center"
-              py={1.7}
-            >
+      {!book ? (
+        <>
+          <Box
+            sx={{
+              backgroundImage: `url(${
+                import.meta.env.VITE_API_URL + book.secondaryImage.url
+              })`,
+              backgroundPosition: "center 60%",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          >
+            <Box sx={{ bgcolor: "rgba(23, 23, 23, 0.9)" }}>
               <Box
-                display="flex"
-                justifyContent={{ xs: "center", sm: "end" }}
-                gridColumn={{ xs: "span 5", sm: "span 2" }}
+                component={Container}
+                disableGutters
+                display="grid"
+                gridTemplateColumns="repeat(5, minmax(0, 1fr))"
+                columnGap={1}
+                alignItems="center"
+                py={1.7}
               >
                 <Box
-                  component="img"
-                  height="330px"
-                  src={import.meta.env.VITE_API_URL + book.cover.url}
-                />
-              </Box>
-              <Box
-                gridColumn={{ xs: "span 5", sm: "span 2" }}
-                display="flex"
-                flexDirection="column"
-                px={{ xs: 3, sm: 1 }}
-                py={{ xs: 3, sm: 0 }}
-              >
-                <Typography variant="h5" fontFamily="Cinzel">
-                  {book.type}
-                </Typography>
-
-                <Typography variant="h2">{book.name}</Typography>
+                  display="flex"
+                  justifyContent={{ xs: "center", sm: "end" }}
+                  gridColumn={{ xs: "span 5", sm: "span 2" }}
+                >
+                  <Box
+                    component="img"
+                    height="330px"
+                    src={import.meta.env.VITE_API_URL + book.cover.url}
+                  />
+                </Box>
               </Box>
             </Box>
           </Box>
-        ) : (
-          "S"
-        )}
-      </Box>
-      <BookDetails />
+          <BookDetails book={{}} />
+        </>
+      ) : (
+        <Loading />
+      )}
     </Box>
   );
 };
+
+export default Book;

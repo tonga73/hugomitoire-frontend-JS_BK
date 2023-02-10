@@ -7,7 +7,7 @@ import { ParticlesDefault } from "../components/ParticlesDefault";
 
 import { Container, Box } from "@mui/material";
 
-export const Landing = () => {
+const Landing = () => {
   const [data, setData] = useState([]);
 
   const books = data.books;
@@ -71,3 +71,5 @@ export const Landing = () => {
     </>
   );
 };
+
+export default Landing;

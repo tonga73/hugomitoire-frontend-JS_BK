@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
+import { motion } from "framer-motion";
+
 import {
   Container,
   Paper,
@@ -14,12 +16,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { FilterList } from "@mui/icons-material";
 
-import { motion } from "framer-motion";
+import { Loading } from "../components/Loading";
 
 import { getBooks } from "../store/actions/books.actions";
 import { selectBooks } from "../store/slices/books.slice";
 
-export const Books = () => {
+const Books = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,31 +58,11 @@ export const Books = () => {
             </Box>
           ))
         ) : (
-          <Box
-            gridColumn="span 12"
-            height="75vh"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            sx={{
-              animation: "animate 2s infinite",
-              "@keyframes animate": {
-                "0%": {
-                  opacity: 1,
-                },
-                "50%": {
-                  opacity: 0.5,
-                },
-                "100%": {
-                  opacity: 1,
-                },
-              },
-            }}
-          >
-            <Typography variant="h5">Cargando...</Typography>
-          </Box>
+          <Loading />
         )}
       </Box>
     </Container>
   );
 };
+
+export default Books;

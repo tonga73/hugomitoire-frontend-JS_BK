@@ -9,12 +9,12 @@ import AuthContextProvider, { AuthContext } from "./contexts/AuthContext";
 import { Footer } from "./components/Footer";
 import { TopBar } from "./components/TopBar";
 
-import { Admin } from "./scenes/Admin";
-import { Book } from "./scenes/Book";
-import { Books } from "./scenes/Books";
-import { Landing } from "./scenes/Landing";
-import { Login } from "./scenes/Login";
-import { NotFound } from "./scenes/NotFound";
+import Admin from "./scenes/Admin";
+import Book from "./scenes/Book";
+import Books from "./scenes/Books";
+import Landing from "./scenes/Landing";
+import Login from "./scenes/Login";
+import NotFound from "./scenes/NotFound";
 
 function App() {
   const { isAuth } = useContext(AuthContext);
