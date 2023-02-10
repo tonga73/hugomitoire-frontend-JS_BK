@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
@@ -22,21 +22,15 @@ import { selectBooks } from "../store/slices/books.slice";
 export const Books = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const books = useSelector(selectBooks);
-
-  const fetchAllBooks = async () => {
-    try {
-      const books = await dispatch(getBooks());
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const books = useSelector(selectBooks) || [];
 
   useEffect(() => {
-    fetchAllBooks();
-    window.scrollTo(0, 0);
-  }, []);
+    dispatch(getBooks());
+    // window.scrollTo(0, 0);
+  }, [dispatch]);
+
   return (
     <Container>
       <Box
@@ -49,18 +43,14 @@ export const Books = () => {
             <Box
               key={index}
               gridColumn="span 3"
-              onClick={() =>
-                navigate(
-                  `/libros/${book.titulo.toLowerCase().replaceAll(" ", "-")}`
-                )
-              }
+              onClick={() => navigate(`/libros/${book.id}`)}
             >
               <Paper
                 component={motion.img}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
                 elevation={3}
-                src={book.imagen}
+                src={import.meta.env.VITE_API_URL + book.cover.url}
                 sx={{ width: "100%", height: "100%" }}
               />
             </Box>

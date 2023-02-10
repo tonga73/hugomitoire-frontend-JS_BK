@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -14,121 +15,35 @@ import Typography from "@mui/material/Typography";
 
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 
+import { selectBook } from "../store/slices/books.slice";
+
+import { getBook } from "../store/actions/books.actions";
+
 export const Book = () => {
+  const dispatch = useDispatch();
   const params = useParams();
-  const [bookData, setBookData] = useState({});
   const [bookChapters, setBookChapters] = useState([]);
 
-  const getData = async () => {
-    await axios("http://localhost:8000/books")
-      .then((response) => {
-        const { data } = response;
-
-        data.data.filter(async (e) => {
-          if (e.titulo.toLowerCase().replaceAll(" ", "-") === params.name) {
-            const publicationDateConverted = new Date(e.fecha_publicacion);
-            const genre = await axios(
-              `http://localhost:8000/genres?id=${e.genero}`
-            )
-              .then((response) => {
-                const { data } = response;
-                const { nombre, edad_recomendada } = (!!data && data[0]) || [];
-
-                return { genre: nombre, ageRange: edad_recomendada };
-              })
-              .catch((err) => console.log(err));
-
-            setBookData({
-              id: e.id,
-              image: e.imagen,
-              name: e.titulo,
-              description: e.descripcion,
-              type: e.tipo,
-              illustrator: e.ilustrador,
-              publisher: e.editorial,
-              publicationDate: Intl.DateTimeFormat("es-AR").format(
-                publicationDateConverted
-              ),
-              ...genre,
-            });
-          }
-        });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getBook = async () => {
-    try {
-      const { data } = await axios("http://localhost:8000/books");
-
-      data.data.filter(async (e) => {
-        if (e.titulo.toLowerCase().replaceAll(" ", "-") === params.name) {
-          const publicationDateConverted = new Date(e.fecha_publicacion);
-          const genre = await axios(
-            `http://localhost:8000/genres?id=${e.genero}`
-          )
-            .then((response) => {
-              const { data } = response;
-              const { nombre, edad_recomendada } = (!!data && data[0]) || [];
-
-              return { genre: nombre, ageRange: edad_recomendada };
-            })
-            .catch((err) => console.log(err));
-
-          setBookData({
-            id: e.id,
-            image: e.imagen,
-            name: e.titulo,
-            description: e.descripcion,
-            type: e.tipo,
-            illustrator: e.ilustrador,
-            publisher: e.editorial,
-            publicationDate: Intl.DateTimeFormat("es-AR").format(
-              publicationDateConverted
-            ),
-            ...genre,
-          });
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getChapters = async (id) => {
-    setBookChapters("loading");
-    const chapters = await axios(
-      `http://localhost:8000/chapters?id=${id}`
-    ).then((response) => {
-      const { data } = response;
-
-      return data;
-    });
-    return setBookChapters(chapters);
-  };
+  const book = useSelector((state) => state.books.book);
 
   useEffect(() => {
-    getBook();
+    dispatch(getBook(params.id));
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    if (bookData.id !== undefined) {
-      getChapters(bookData.id);
-    }
-  }, [bookData.id]);
 
   return (
     <Box width="100%">
       <Box
         sx={{
-          backgroundImage: `url(${bookData.image})`,
+          backgroundImage: `url(${
+            import.meta.env.VITE_API_URL + book.secondaryImage.url
+          })`,
           backgroundPosition: "center 60%",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        {Object.values(bookData).length > 0 ? (
+        {Object.values(book).length > 0 ? (
           <Box sx={{ bgcolor: "rgba(23, 23, 23, 0.9)" }}>
             <Box
               component={Container}
@@ -144,7 +59,11 @@ export const Book = () => {
                 justifyContent={{ xs: "center", sm: "end" }}
                 gridColumn={{ xs: "span 5", sm: "span 2" }}
               >
-                <Box component="img" height="330px" src={bookData.image} />
+                <Box
+                  component="img"
+                  height="330px"
+                  src={import.meta.env.VITE_API_URL + book.cover.url}
+                />
               </Box>
               <Box
                 gridColumn={{ xs: "span 5", sm: "span 2" }}
@@ -154,10 +73,10 @@ export const Book = () => {
                 py={{ xs: 3, sm: 0 }}
               >
                 <Typography variant="h5" fontFamily="Cinzel">
-                  {bookData.type}
+                  {book.type}
                 </Typography>
 
-                <Typography variant="h2">{bookData.name}</Typography>
+                <Typography variant="h2">{book.name}</Typography>
               </Box>
             </Box>
           </Box>
@@ -186,7 +105,7 @@ export const Book = () => {
           </Box>
         )}
       </Box>
-      {Object.values(bookData).length > 0 ? (
+      {Object.values(book).length > 0 ? (
         <Box
           component={Container}
           display="grid"
@@ -208,7 +127,7 @@ export const Book = () => {
                 Edad Recomendada
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
-                {!!bookData.ageRange && bookData.ageRange}
+                {!!book.ageRange && book.ageRange}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
@@ -221,7 +140,7 @@ export const Book = () => {
                 Sinópsis
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
-                {bookData.description}
+                {book.description}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
@@ -234,7 +153,7 @@ export const Book = () => {
                 Género
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
-                {bookData.genre}
+                {book.genre}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
@@ -247,7 +166,7 @@ export const Book = () => {
                 Fecha de Publicación
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
-                {bookData.publicationDate}
+                {book.publicationDate}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
@@ -260,7 +179,7 @@ export const Book = () => {
                 Ilustraciones
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
-                {bookData.illustrator}
+                {book.illustrator}
               </Typography>
             </Box>
             <Box display="flex" flexDirection="column">
@@ -273,7 +192,7 @@ export const Book = () => {
                 Editorial
               </Typography>
               <Typography variant="h5" fontFamily="Bellefair">
-                {bookData.publisher}
+                {book.publisher}
               </Typography>
             </Box>
           </Box>

@@ -5,5 +5,17 @@ export const fetchBooks = async () => {
     const { data } = await API(`books/`);
 
     return data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchBook = async (id) => {
+  try {
+    const { data } = await API(`books/${id}`);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };

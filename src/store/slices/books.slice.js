@@ -4,6 +4,7 @@ import { getBooks } from "../actions/books.actions";
 
 const initialState = {
   books: [],
+  book: {},
   loading: "idle",
   currentRequestId: undefined,
   error: null,
@@ -12,6 +13,11 @@ const initialState = {
 export const booksSlice = createSlice({
   name: "books",
   initialState,
+  reducers: {
+    setBook: (state, action) => {
+      state.book = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getBooks.pending, (state, action) => {
       if (state.loading === "idle") {
@@ -38,6 +44,10 @@ export const booksSlice = createSlice({
   },
 });
 
+export const { setBook } = booksSlice.actions;
+
 export const selectBooks = (state) => state.books.books;
+
+export const selectBook = (state) => state.books.book;
 
 export default booksSlice.reducer;
