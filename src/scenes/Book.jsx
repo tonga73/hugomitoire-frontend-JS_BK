@@ -18,16 +18,16 @@ import FileOpenIcon from "@mui/icons-material/FileOpen";
 import { Loading } from "../components/Loading";
 import { BookDetails } from "../components/BookDetails";
 
-import { selectBook } from "../store/slices/books.slice";
+import { selectBook } from "../store/slices/book.slice";
 
-import { getBook } from "../store/actions/books.actions";
+import { getBook } from "../store/actions/book.actions";
 
 const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const [bookChapters, setBookChapters] = useState([]);
 
-  const book = useSelector((state) => state.books.book) || {};
+  const book = useSelector(selectBook) || {};
 
   useEffect(() => {
     dispatch(getBook(params.id));
@@ -36,7 +36,7 @@ const Book = () => {
 
   return (
     <Box width="100%">
-      {!book ? (
+      {book ? (
         <>
           <Box
             sx={{
