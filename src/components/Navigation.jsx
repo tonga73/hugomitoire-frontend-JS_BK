@@ -37,8 +37,6 @@ export const Navigation = ({ vertical }) => {
     },
   ];
 
-  console.log(location);
-
   useEffect(() => {
     if (location.pathname !== `/libro/${book.id}`) {
       dispatch(setBook({}));

@@ -69,10 +69,23 @@ const Book = () => {
                     src={import.meta.env.VITE_API_URL + book.cover.url}
                   />
                 </Box>
+                <Box
+                  gridColumn={{ xs: "span 5", sm: "span 2" }}
+                  display="flex"
+                  flexDirection="column"
+                  px={{ xs: 3, sm: 1 }}
+                  py={{ xs: 3, sm: 0 }}
+                >
+                  <Typography variant="h5" fontFamily="Cinzel">
+                    {book.type}
+                  </Typography>
+
+                  <Typography variant="h2">{book.name}</Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
-          <BookDetails book={{}} />
+          <BookDetails book={book} />
         </>
       ) : (
         <Loading />
