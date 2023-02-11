@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -15,6 +14,7 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 
 import { Loading } from "../components/Loading";
 import { BookDetails } from "../components/BookDetails";
+import { BookImages } from "../components/BookImages";
 
 import { selectBook } from "../store/slices/book.slice";
 
@@ -23,18 +23,17 @@ import { getBook } from "../store/actions/book.actions";
 const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
-  const [bookChapters, setBookChapters] = useState([]);
-  const [detailTabs, setDetailTabs] = useState("details");
+  const [activeTab, setActiveTab] = useState("details");
 
   const book = useSelector(selectBook);
 
-  function toggleDetailTabs(e) {
+  function toggleActiveTab(e) {
     switch (e.target.name) {
       case "details":
-        setDetailTabs(e.target.name);
+        setActiveTab(e.target.name);
         break;
       case "images":
-        setDetailTabs(e.target.name);
+        setActiveTab(e.target.name);
         break;
 
       default:
@@ -70,91 +69,108 @@ const Book = () => {
                 gridTemplateColumns="repeat(12, minmax(0, 1fr))"
                 columnGap={1}
                 alignItems="center"
-                py={1.7}
               >
+                {/* FIRST SECTION */}
                 <Box
                   display="flex"
                   alignItems="center"
                   gridColumn={{ xs: "span 5", sm: "span 7" }}
                 >
-                  <Box display="flex">
-                    <Box
-                      component="img"
-                      height="330px"
-                      src={import.meta.env.VITE_API_URL + book.cover.url}
-                    />
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    px={{ xs: 3, sm: 1 }}
-                    py={{ xs: 3, sm: 0 }}
-                  >
-                    <Box display="flex" gap={1.5} alignItems="center">
-                      <Typography
-                        variant="h6"
-                        fontFamily="Cinzel"
-                        fontWeight={700}
+                  {activeTab === "details" ? (
+                    <>
+                      <Box display="flex">
+                        <Box
+                          component="img"
+                          height="330px"
+                          src={import.meta.env.VITE_API_URL + book.cover.url}
+                        />
+                      </Box>
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        px={{ xs: 3, sm: 1 }}
+                        py={{ xs: 3, sm: 0 }}
                       >
-                        {book.type}
-                      </Typography>
-                      <Chip
-                        size="small"
-                        variant="outlined"
-                        label={
+                        <Box display="flex" gap={1.5} alignItems="center">
                           <Typography
-                            variant="subtitle1"
-                            fontFamily="cinzel"
-                            fontWeight="bold"
+                            variant="h6"
+                            fontFamily="Cinzel"
+                            fontWeight={700}
                           >
-                            {book.genre.ageRange}
+                            {book.type}
                           </Typography>
-                        }
-                        color="secondary"
-                      />
-                    </Box>
+                          <Chip
+                            size="small"
+                            variant="outlined"
+                            label={
+                              <Typography
+                                variant="subtitle1"
+                                fontFamily="cinzel"
+                                fontWeight="bold"
+                              >
+                                {book.genre.ageRange}
+                              </Typography>
+                            }
+                            color="secondary"
+                          />
+                        </Box>
 
-                    <Typography variant="h2">{book.name}</Typography>
-                    <Typography
-                      variant="h5"
-                      fontFamily="Bellefair"
-                      sx={{ p: 1 }}
-                    >
-                      {book.description}
-                    </Typography>
-                  </Box>
+                        <Typography variant="h2">{book.name}</Typography>
+                        <Typography
+                          variant="h5"
+                          fontFamily="Bellefair"
+                          sx={{ p: 1 }}
+                        >
+                          {book.description}
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <Box width="100%">
+                      <BookImages book={book} />
+                    </Box>
+                  )}
                 </Box>
 
-                {/* BOOK DETAILS SECTION */}
-                <Box gridColumn={{ xs: "span 5", sm: "span 5" }}>
-                  {/* TOGGLE TABS BUTTONS */}
-                  <Box p={1.5}>
-                    <ButtonGroup fullWidth color="secondary" size="large">
-                      <Button
-                        name="details"
-                        disabled={detailTabs === "details"}
-                        onClick={toggleDetailTabs}
-                        startIcon={<DetailsIcon />}
-                      >
-                        detalles
-                      </Button>
-                      <Button
-                        name="images"
-                        disabled={detailTabs === "images"}
-                        onClick={toggleDetailTabs}
-                        startIcon={<PermMediaIcon />}
-                      >
-                        imagenes
-                      </Button>
-                    </ButtonGroup>
+                {/* SECOND SECTION */}
+                <Box
+                  display="grid"
+                  gridColumn={{ xs: "span 5", sm: "span 5" }}
+                  minHeight={531}
+                >
+                  <Box
+                    gridColumn={{
+                      xs: "span 5",
+                      sm: activeTab === "details" ? "span 12" : "span 12",
+                    }}
+                  >
+                    <Box p={1.5}>
+                      <ButtonGroup fullWidth color="secondary" size="large">
+                        <Button
+                          name="details"
+                          disabled={activeTab === "details"}
+                          onClick={toggleActiveTab}
+                          startIcon={<DetailsIcon />}
+                        >
+                          detalles
+                        </Button>
+                        <Button
+                          name="images"
+                          disabled={activeTab === "images"}
+                          onClick={toggleActiveTab}
+                          startIcon={<PermMediaIcon />}
+                        >
+                          imagenes
+                        </Button>
+                      </ButtonGroup>
+                    </Box>
+                    <Box display="flex" minHeight={450}>
+                      <BookDetails
+                        book={book}
+                        hideComponent={activeTab !== "details"}
+                      />
+                    </Box>
                   </Box>
-
-                  {/* TAB DISPLAYS */}
-                  {detailTabs === "details" ? (
-                    <BookDetails book={book} />
-                  ) : (
-                    <Box minHeight={403}>"OLI"</Box>
-                  )}
                 </Box>
               </Box>
             </Box>

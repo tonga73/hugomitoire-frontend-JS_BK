@@ -1,26 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 
 import { ChaptersList } from "./ChaptersList";
 
-export const BookDetails = ({ book }) => {
-  const [bookChapters, setBookChapters] = useState([]);
-
+export const BookDetails = ({ book, hideComponent }) => {
   return (
     <Box
       display="grid"
       gridTemplateColumns="repeat(5, minmax(0, 1fr))"
-      flexDirection="column"
       gap={0.9}
+      minHeight={450}
       sx={{
         "> *": {
           borderRadius: 1.1,
@@ -122,6 +113,7 @@ export const BookDetails = ({ book }) => {
         </Box>
         <Box
           display="grid"
+          gridColumn="span 1"
           sx={{
             placeItems: "center",
             bgcolor: "background.paper",
