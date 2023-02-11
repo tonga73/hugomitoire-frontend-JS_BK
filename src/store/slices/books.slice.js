@@ -38,6 +38,6 @@ export const booksSlice = createSlice({
   },
 });
 
-export const selectBooks = (state) => state.books.books;
+export const selectBooks = (state) => state.books;
 
 export default booksSlice.reducer;
