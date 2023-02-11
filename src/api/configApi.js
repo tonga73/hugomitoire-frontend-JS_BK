@@ -1,10 +1,10 @@
 import API from "./_index";
 
-export const fetchUserEnums = async () => {
+export const fetchConfig = async () => {
   try {
-    const { data } = await API(`users_enumdata/`);
+    // const { data } = await API(`config/`);
 
-    return data;
+    return [];
   } catch (error) {
     console.log(error);
   }

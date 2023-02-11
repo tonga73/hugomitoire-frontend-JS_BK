@@ -3,16 +3,15 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-export const Loading = () => {
+export const Loading = ({ message, noAnimation, noDots }) => {
   return (
     <Box
-      gridColumn="span 12"
       height="75vh"
       display="flex"
       justifyContent="center"
       alignItems="center"
       sx={{
-        animation: "animate 2s infinite",
+        animation: noAnimation ? "" : "animate 2s infinite",
         "@keyframes animate": {
           "0%": {
             opacity: 1,
@@ -26,7 +25,9 @@ export const Loading = () => {
         },
       }}
     >
-      <Typography variant="h5">Cargando...</Typography>
+      <Typography variant="h5">{`${message || "Cargando"} ${
+        noDots ? "" : "..."
+      }`}</Typography>
     </Box>
   );
 };

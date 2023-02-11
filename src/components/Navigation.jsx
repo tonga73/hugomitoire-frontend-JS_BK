@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
@@ -9,11 +9,6 @@ import { Box, Button } from "@mui/material";
 import { selectBook, setBook } from "../store/slices/book.slice";
 
 export const Navigation = ({ vertical }) => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-
-  const book = useSelector(selectBook);
-
   const pages = [
     {
       name: "Inicio",
@@ -36,12 +31,6 @@ export const Navigation = ({ vertical }) => {
       path: "/contacto",
     },
   ];
-
-  useEffect(() => {
-    if (location.pathname !== `/libro/${book.id}`) {
-      dispatch(setBook({}));
-    }
-  }, [location.pathname, dispatch]);
 
   return (
     <Box display="flex" flexDirection={vertical ? "column" : undefined}>
