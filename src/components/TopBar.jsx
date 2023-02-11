@@ -168,7 +168,9 @@ export const TopBar = () => {
                     },
                   }}
                 >
-                  <AdminPanelSettingsIcon />
+                  <AdminPanelSettingsIcon
+                    color={pathname === "/admin" ? "primary" : "secondary"}
+                  />
                 </IconButton>
                 {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

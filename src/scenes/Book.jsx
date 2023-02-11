@@ -23,6 +23,7 @@ import { getBook } from "../store/actions/book.actions";
 const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
+
   const [activeTab, setActiveTab] = useState("details");
 
   const book = useSelector(selectBook);
@@ -44,13 +45,18 @@ const Book = () => {
   useEffect(() => {
     dispatch(getBook(params.id));
     window.scrollTo(0, 0);
-  }, []);
+  }, [dispatch, getBook]);
 
   return (
     <Box width="100%">
       {Object.keys(book).length > 0 ? (
         <>
           <Box
+            height={
+              document.getElementById("header") &&
+              window.innerHeight -
+                document.getElementById("header").clientHeight
+            }
             sx={{
               backgroundImage: `url(${
                 import.meta.env.VITE_API_URL + book.secondaryImage.url
@@ -61,14 +67,14 @@ const Book = () => {
               backgroundAttachment: "fixed",
             }}
           >
-            <Box sx={{ bgcolor: "rgba(23, 23, 23, 0.9)" }}>
+            <Box height="100%" sx={{ bgcolor: "rgba(23, 23, 23, 0.9)" }}>
               <Box
                 component={Container}
                 disableGutters
                 display="grid"
                 gridTemplateColumns="repeat(12, minmax(0, 1fr))"
                 columnGap={1}
-                alignItems="center"
+                sx={{ placeItems: "center" }}
               >
                 {/* FIRST SECTION */}
                 <Box

@@ -4,8 +4,9 @@ import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -97,7 +98,29 @@ const Admin = () => {
   }, [dispatch]);
 
   return (
-    <Box display="flex" flexDirection="column" height="100%">
+    <Box
+      display="flex"
+      flexDirection="column"
+      rowGap={0.5}
+      maxHeight={
+        document.getElementById("header") &&
+        window.innerHeight - document.getElementById("header").clientHeight
+      }
+    >
+      <Box
+        display="grid"
+        gridAutoColumns="span 2"
+        p={0.3}
+        sx={{ placeItems: "center", bgcolor: "background.paper" }}
+      >
+        <Typography
+          variant="caption"
+          color="GrayText"
+          textTransform="lowercase"
+        >
+          panel de admin
+        </Typography>
+      </Box>
       <Box gridColumn="span 2">
         <ButtonGroup color="secondary" size="small" sx={{ p: 0.5 }}>
           <Button
