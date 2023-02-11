@@ -3,10 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 import Container from "@mui/material/Container";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+
+import DetailsIcon from "@mui/icons-material/Details";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
 
 import { Loading } from "../components/Loading";
 import { BookDetails } from "../components/BookDetails";
@@ -19,8 +24,23 @@ const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const [bookChapters, setBookChapters] = useState([]);
+  const [detailTabs, setDetailTabs] = useState("details");
 
   const book = useSelector(selectBook);
+
+  function toggleDetailTabs(e) {
+    switch (e.target.name) {
+      case "details":
+        setDetailTabs(e.target.name);
+        break;
+      case "images":
+        setDetailTabs(e.target.name);
+        break;
+
+      default:
+        break;
+    }
+  }
 
   useEffect(() => {
     dispatch(getBook(params.id));
@@ -70,14 +90,6 @@ const Book = () => {
                     px={{ xs: 3, sm: 1 }}
                     py={{ xs: 3, sm: 0 }}
                   >
-                    <Typography
-                      variant="subtitle2"
-                      color="ActiveCaption"
-                      fontFamily="Bellefair"
-                      fontWeight="bold"
-                    >
-                      | {book.publicationDate}
-                    </Typography>
                     <Box display="flex" gap={1.5} alignItems="center">
                       <Typography
                         variant="h6"
@@ -112,8 +124,37 @@ const Book = () => {
                     </Typography>
                   </Box>
                 </Box>
+
+                {/* BOOK DETAILS SECTION */}
                 <Box gridColumn={{ xs: "span 5", sm: "span 5" }}>
-                  <BookDetails book={book} />
+                  {/* TOGGLE TABS BUTTONS */}
+                  <Box p={1.5}>
+                    <ButtonGroup fullWidth color="secondary" size="large">
+                      <Button
+                        name="details"
+                        disabled={detailTabs === "details"}
+                        onClick={toggleDetailTabs}
+                        startIcon={<DetailsIcon />}
+                      >
+                        detalles
+                      </Button>
+                      <Button
+                        name="images"
+                        disabled={detailTabs === "images"}
+                        onClick={toggleDetailTabs}
+                        startIcon={<PermMediaIcon />}
+                      >
+                        imagenes
+                      </Button>
+                    </ButtonGroup>
+                  </Box>
+
+                  {/* TAB DISPLAYS */}
+                  {detailTabs === "details" ? (
+                    <BookDetails book={book} />
+                  ) : (
+                    <Box minHeight={403}>"OLI"</Box>
+                  )}
                 </Box>
               </Box>
             </Box>

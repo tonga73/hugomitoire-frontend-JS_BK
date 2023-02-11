@@ -23,7 +23,8 @@ export const BookDetails = ({ book }) => {
       gap={0.9}
       sx={{
         "> *": {
-          borderRadius: 1.5,
+          borderRadius: 1.1,
+          userSelect: "none",
         },
       }}
     >
@@ -94,8 +95,8 @@ export const BookDetails = ({ book }) => {
       <Box
         gridColumn="span 5"
         display="grid"
-        gridTemplateColumns="50% 50%"
-        gap={0.9}
+        gridTemplateColumns="49% 49%"
+        justifyContent="space-between"
       >
         <Box
           display="grid"
