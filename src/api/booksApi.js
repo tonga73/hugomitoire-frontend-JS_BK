@@ -2,7 +2,7 @@ import API from "./_index";
 
 export const fetchBooks = async () => {
   try {
-    const { data } = await API(`books/`);
+    const { data } = await API(`/books/`);
 
     return data;
   } catch (error) {
@@ -12,7 +12,7 @@ export const fetchBooks = async () => {
 
 export const fetchBook = async (id) => {
   try {
-    const { data } = await API(`books/${id}`);
+    const { data } = await API(`/books/${id}`);
 
     return data;
   } catch (error) {

@@ -47,7 +47,11 @@ const Landing = () => {
   }, [dispatch]);
   return (
     <>
-      {books.length > 0 ? <BooksCarousel dataBook={books} /> : <Loading />}
+      {!!books && books.length > 0 ? (
+        <BooksCarousel dataBook={books} />
+      ) : (
+        <Loading />
+      )}
       <Container disableGutters>
         <Box
           display="grid"
