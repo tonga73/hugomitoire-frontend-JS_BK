@@ -26,7 +26,7 @@ const Books = () => {
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const books = useSelector(selectBooks) || [];
+  const { books } = useSelector(selectBooks);
 
   useEffect(() => {
     dispatch(getBooks());
@@ -58,7 +58,14 @@ const Books = () => {
             </Box>
           ))
         ) : (
-          <Loading />
+          <Box
+            display="grid"
+            gridColumn="span 12"
+            width="100%"
+            sx={{ placeItems: "center" }}
+          >
+            <Loading />
+          </Box>
         )}
       </Box>
     </Container>
