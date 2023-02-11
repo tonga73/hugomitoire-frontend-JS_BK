@@ -1,33 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getBooks } from "../actions/books.actions";
+import { getConfig } from "../actions/config.actions";
 
 const initialState = {
-  books: [],
+  config: {
+    pageTitle: "Hugo Mitoire | Sitio Oficial",
+  },
   loading: "idle",
   currentRequestId: undefined,
   error: null,
 };
 
-export const booksSlice = createSlice({
-  name: "books",
+export const configSlice = createSlice({
+  name: "config",
   initialState,
+  reducers: {
+    setConfig: (state, action) => {
+      state.config = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getBooks.pending, (state, action) => {
+    builder.addCase(getConfig.pending, (state, action) => {
       if (state.loading === "idle") {
         state.loading = "pending";
         state.currentRequestId = action.meta.requestId;
       }
     });
-    builder.addCase(getBooks.fulfilled, (state, action) => {
+    builder.addCase(getConfig.fulfilled, (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
-        state.books = action.payload;
+        state.config = action.payload;
         state.currentRequestId = undefined;
       }
     });
-    builder.addCase(getBooks.rejected, (state, action) => {
+    builder.addCase(getConfig.rejected, (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
@@ -38,6 +45,8 @@ export const booksSlice = createSlice({
   },
 });
 
-export const selectBooks = (state) => state.books;
+export const { setConfig } = configSlice.actions;
 
-export default booksSlice.reducer;
+export const selectConfig = (state) => state.config.config;
+
+export default configSlice.reducer;

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Grid, Box, Typography, Button } from "@mui/material";
 
 import { motion } from "framer-motion";
 
-export const RecordsCarousel = ({ dataBook }) => {
+export const BooksCarousel = ({ dataBook }) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
@@ -16,7 +18,10 @@ export const RecordsCarousel = ({ dataBook }) => {
       transition={{ duration: 0.3 }}
       sx={{
         minHeight: "100vh",
-        backgroundImage: `url(${dataBook[currentIndex].background})`,
+        backgroundImage: `url(${
+          import.meta.env.VITE_API_URL +
+          dataBook[currentIndex].secondaryImage.url
+        })`,
         backgroundSize: "cover",
         backgroundPosition: { xs: "30%", sm: "35%", md: "center" },
         backgroundAttachment: "fixed",
@@ -74,7 +79,10 @@ export const RecordsCarousel = ({ dataBook }) => {
           >
             <Box
               component="img"
-              src={dataBook[currentIndex].image}
+              src={
+                import.meta.env.VITE_API_URL + dataBook[currentIndex].cover.url
+              }
+              onClick={() => navigate(`/libro/${dataBook[currentIndex].id}`)}
               sx={{
                 height: {
                   xs: `clamp(23rem, 1vw + 1rem, 2.2rem)`,

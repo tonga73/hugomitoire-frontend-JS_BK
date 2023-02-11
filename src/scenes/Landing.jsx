@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { RecordsCarousel } from "../components/RecordsCarousel";
-import { RecordCard } from "../components/RecordCard";
+import { Loading } from "../components/Loading";
+import { BooksCarousel } from "../components/BooksCarousel";
+import { ChapterTextCard } from "../components/ChapterTextCard";
 import { Banner } from "../components/Banner";
 import { ParticlesDefault } from "../components/ParticlesDefault";
 
-import { Container, Box, Grid } from "@mui/material";
+import { Container, Box } from "@mui/material";
 
-export const Landing = () => {
+import { selectBooks } from "../store/slices/books.slice";
+import { getBooks } from "../store/actions/books.actions";
+
+const Landing = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
 
-  const books = data.books;
+  const { books } = useSelector(selectBooks);
   const cards = data.cards;
 
   const getData = () => {
@@ -35,21 +41,35 @@ export const Landing = () => {
   };
 
   useEffect(() => {
+    dispatch(getBooks());
     getData();
-    window.scrollTo(0, 0);
-  }, []);
+    // window.scrollTo(0, 0);
+  }, [dispatch]);
   return (
     <>
-      {books && <RecordsCarousel dataBook={books.map((book) => book)} />}
+      {books.length > 0 ? <BooksCarousel dataBook={books} /> : <Loading />}
       <Container disableGutters>
-        <Grid container justifyContent="center" gap={3} sx={{ py: 15 }}>
+        <Box
+          display="grid"
+          gridTemplateColumns={{
+            xs: "repeat(1, minmax(0, 1fr))",
+            sm: "repeat(2, minmax(0, 1fr))",
+            lg: "repeat(3, minmax(0, 1fr))",
+          }}
+          gap={3}
+          sx={{
+            placeItems: "start",
+            justifyItems: "center",
+            py: 15,
+          }}
+        >
           {cards !== undefined &&
             cards.map((card, index) => (
-              <Grid key={index} item>
-                <RecordCard dataCard={card} />
-              </Grid>
+              <Box display="grid" key={index} sx={{ placeItems: "center" }}>
+                <ChapterTextCard dataCard={card} />
+              </Box>
             ))}
-        </Grid>
+        </Box>
         <Banner />
         <Box style={{ zIndex: -1, position: "relative" }}>
           <ParticlesDefault />
@@ -58,3 +78,5 @@ export const Landing = () => {
     </>
   );
 };
+
+export default Landing;

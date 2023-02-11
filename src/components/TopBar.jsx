@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 import { useScrollPosition } from "../utils/useScrollPosition";
 import { Navigation } from "./Navigation";
@@ -152,6 +153,25 @@ export const TopBar = () => {
           >
             <Toolbar disableGutters>
               <Box sx={{ justifyContent: "end" }}>
+                <IconButton
+                  component={Link}
+                  to={"/admin"}
+                  disableRipple
+                  sx={{
+                    color: "rgba(255, 255, 255, 0.7)",
+                    display: "block",
+                    textTransform: "capitalize",
+                    textAlign: "center",
+                    "&:hover": {
+                      color: "rgba(255, 255, 255, 1)",
+                      bgcolor: "transparent",
+                    },
+                  }}
+                >
+                  <AdminPanelSettingsIcon
+                    color={pathname === "/admin" ? "primary" : "secondary"}
+                  />
+                </IconButton>
                 {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar

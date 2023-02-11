@@ -13,7 +13,9 @@ export const Footer = () => {
       id="footer"
       display={
         location.pathname === "/media/audio-video" ||
-        location.pathname === "/media"
+        location.pathname === "/media" ||
+        location.pathname === "/admin" ||
+        location.pathname.startsWith("/libro")
           ? "none"
           : "flex"
       }

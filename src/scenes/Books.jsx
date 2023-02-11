@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+
+import { motion } from "framer-motion";
 
 import {
   Container,
@@ -14,29 +16,23 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { FilterList } from "@mui/icons-material";
 
-import { motion } from "framer-motion";
+import { Loading } from "../components/Loading";
 
 import { getBooks } from "../store/actions/books.actions";
 import { selectBooks } from "../store/slices/books.slice";
 
-export const Books = () => {
+const Books = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const books = useSelector(selectBooks);
-
-  const fetchAllBooks = async () => {
-    try {
-      const books = await dispatch(getBooks());
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { books } = useSelector(selectBooks);
 
   useEffect(() => {
-    fetchAllBooks();
-    window.scrollTo(0, 0);
-  }, []);
+    dispatch(getBooks());
+    // window.scrollTo(0, 0);
+  }, [dispatch]);
+
   return (
     <Container>
       <Box
@@ -49,48 +45,31 @@ export const Books = () => {
             <Box
               key={index}
               gridColumn="span 3"
-              onClick={() =>
-                navigate(
-                  `/libros/${book.titulo.toLowerCase().replaceAll(" ", "-")}`
-                )
-              }
+              onClick={() => navigate(`/libro/${book.id}`)}
             >
               <Paper
                 component={motion.img}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
                 elevation={3}
-                src={book.imagen}
+                src={import.meta.env.VITE_API_URL + book.cover.url}
                 sx={{ width: "100%", height: "100%" }}
               />
             </Box>
           ))
         ) : (
           <Box
+            display="grid"
             gridColumn="span 12"
-            height="75vh"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            sx={{
-              animation: "animate 2s infinite",
-              "@keyframes animate": {
-                "0%": {
-                  opacity: 1,
-                },
-                "50%": {
-                  opacity: 0.5,
-                },
-                "100%": {
-                  opacity: 1,
-                },
-              },
-            }}
+            width="100%"
+            sx={{ placeItems: "center" }}
           >
-            <Typography variant="h5">Cargando...</Typography>
+            <Loading />
           </Box>
         )}
       </Box>
     </Container>
   );
 };
+
+export default Books;

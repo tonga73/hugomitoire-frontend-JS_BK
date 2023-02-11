@@ -1,33 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getBooks } from "../actions/books.actions";
+import { getBook } from "../actions/book.actions";
 
 const initialState = {
-  books: [],
+  book: {},
   loading: "idle",
   currentRequestId: undefined,
   error: null,
 };
 
-export const booksSlice = createSlice({
-  name: "books",
+export const bookSlice = createSlice({
+  name: "book",
   initialState,
+  reducers: {
+    setBook: (state, action) => {
+      state.book = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getBooks.pending, (state, action) => {
+    builder.addCase(getBook.pending, (state, action) => {
       if (state.loading === "idle") {
         state.loading = "pending";
         state.currentRequestId = action.meta.requestId;
       }
     });
-    builder.addCase(getBooks.fulfilled, (state, action) => {
+    builder.addCase(getBook.fulfilled, (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
-        state.books = action.payload;
+        state.book = action.payload;
         state.currentRequestId = undefined;
       }
     });
-    builder.addCase(getBooks.rejected, (state, action) => {
+    builder.addCase(getBook.rejected, (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
@@ -38,6 +43,8 @@ export const booksSlice = createSlice({
   },
 });
 
-export const selectBooks = (state) => state.books;
+export const { setBook } = bookSlice.actions;
 
-export default booksSlice.reducer;
+export const selectBook = (state) => state.book.book;
+
+export default bookSlice.reducer;

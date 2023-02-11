@@ -1,33 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getBooks } from "../actions/books.actions";
+import { getUsers } from "../actions/users.actions";
 
 const initialState = {
-  books: [],
+  users: null,
+  enums: null,
   loading: "idle",
   currentRequestId: undefined,
   error: null,
 };
 
-export const booksSlice = createSlice({
-  name: "books",
+export const usersSlice = createSlice({
+  name: "users",
   initialState,
+  reducers: {
+    setUsers: (state, action) => {
+      state.users = action.payload;
+    },
+    setEnums: (state, action) => {
+      state.enums = action.payload;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getBooks.pending, (state, action) => {
+    builder.addCase(getUsers.pending, (state, action) => {
       if (state.loading === "idle") {
         state.loading = "pending";
         state.currentRequestId = action.meta.requestId;
       }
     });
-    builder.addCase(getBooks.fulfilled, (state, action) => {
+    builder.addCase(getUsers.fulfilled, (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
-        state.books = action.payload;
+        state.users = action.payload;
         state.currentRequestId = undefined;
       }
     });
-    builder.addCase(getBooks.rejected, (state, action) => {
+    builder.addCase(getUsers.rejected, (state, action) => {
       const { requestId } = action.meta;
       if (state.loading === "pending" && state.currentRequestId === requestId) {
         state.loading = "idle";
@@ -38,6 +47,10 @@ export const booksSlice = createSlice({
   },
 });
 
-export const selectBooks = (state) => state.books;
+export const { setUsers, setEnums } = usersSlice.actions;
 
-export default booksSlice.reducer;
+export const selectUsers = (state) => state.users.users;
+
+export const selectUsersEnums = (state) => state.users.enums;
+
+export default usersSlice.reducer;
