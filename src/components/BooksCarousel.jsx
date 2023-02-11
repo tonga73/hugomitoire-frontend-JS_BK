@@ -20,6 +20,7 @@ export const BooksCarousel = ({ dataBook }) => {
         minHeight: "100vh",
         backgroundImage: `url(${
           import.meta.env.VITE_API_URL +
+          "/" +
           dataBook[currentIndex].secondaryImage.url
         })`,
         backgroundSize: "cover",
@@ -80,7 +81,9 @@ export const BooksCarousel = ({ dataBook }) => {
             <Box
               component="img"
               src={
-                import.meta.env.VITE_API_URL + dataBook[currentIndex].cover.url
+                import.meta.env.VITE_API_URL +
+                "/" +
+                dataBook[currentIndex].cover.url
               }
               onClick={() => navigate(`/libro/${dataBook[currentIndex].id}`)}
               sx={{
