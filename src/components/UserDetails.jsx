@@ -12,7 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
 
-import { selectUser } from "../store/slices/user.slice";
+import { selectUser, setUser } from "../store/slices/user.slice";
 import { getUser, createUser } from "../store/actions/user.actions";
 
 import { Loading } from "./Loading";
@@ -24,40 +24,27 @@ const UserDetails = ({ createMode, createUserData }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [confirmCreate, setConfirmCreate] = useState(null);
 
-  const user = useSelector(selectUser);
+  const { user, loading } = useSelector(selectUser);
 
   useEffect(() => {
-    if (
-      (!createUserData && !searchParams.has("selectedUserEmail")) ||
-      (!user && !searchParams.has("selectedUserEmail"))
-    ) {
-      setSelectedUser(null);
-      return;
-    }
-    if (!!user) {
-      setSelectedUser(user);
-      return;
-    }
     if (!createMode && searchParams.has("selectedUserEmail")) {
       dispatch(getUser(searchParams.get("selectedUserEmail")));
       return;
     } else if (createMode && searchParams.has("selectedUserEmail")) {
       const newUserData = createUserData.filter(
-        (e) => e.email === searchParams.get("selectedUserEmail")
+        (x) => x.email === searchParams.get("selectedUserEmail")
       );
       setSelectedUser(...newUserData);
       return;
     }
-    if (searchParams.has("selectedUserEmail") && !selectedUser) {
-      searchParams.delete("selectedUserEmail");
+    setSelectedUser(null);
+  }, [createMode, searchParams]);
+
+  useEffect(() => {
+    if (user) {
+      setSelectedUser(user);
     }
-  }, [
-    searchParams,
-    searchParams.has("selectedUserEmail"),
-    createMode,
-    user,
-    selectedUser,
-  ]);
+  }, [user]);
 
   return !!selectedUser ?? Object.values(selectedUser).length > 0 ? (
     <Box display="grid" rowGap={1}>
@@ -138,7 +125,11 @@ const UserDetails = ({ createMode, createUserData }) => {
     </Box>
   ) : (
     <Box>
-      <Loading message="Seleccionar usuario" noAnimation noDots />
+      <Loading
+        message={loading !== "pending" ? "Seleccionar usuario" : ""}
+        noAnimation={loading !== "pending"}
+        noDots={loading !== "pending"}
+      />
     </Box>
   );
 };

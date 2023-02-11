@@ -4,9 +4,7 @@ import { getUsers } from "../actions/users.actions";
 
 const initialState = {
   users: null,
-  enums: {
-    roles: null,
-  },
+  enums: null,
   loading: "idle",
   currentRequestId: undefined,
   error: null,

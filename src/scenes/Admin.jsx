@@ -4,7 +4,11 @@ import { useSearchParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import ButtonGroup from "@mui/material/ButtonGroup";
+
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
 import UserDetails from "../components/UserDetails";
 import { UsersList } from "../components/UsersList";
@@ -24,17 +28,45 @@ const Admin = () => {
 
   const createUsersData = [
     {
-      username: "Admin",
-      email: "correo@ejemplo.com",
+      username: "Default User",
+      email: "correo1@ejemplo.com",
       password: "1234",
       name: "Nombre Completo",
-      type: "author/developer/illustrator/publisher",
+      type: "random",
+      isVerified: false,
+      role: "DEFAULT",
+    },
+    {
+      username: "Collaborator User",
+      email: "correo3@ejemplo.com",
+      password: "1234",
+      name: "Nombre Completo",
+      type: "publisher",
+      isVerified: false,
+      role: "COLLABORATOR",
+    },
+    {
+      username: "Moderator User",
+      email: "correo2@ejemplo.com",
+      password: "1234",
+      name: "Nombre Completo",
+      type: "illustrator",
+      isVerified: false,
+      role: "MODERATOR",
+    },
+    {
+      username: "Admin User",
+      email: "correo4@ejemplo.com",
+      password: "1234",
+      name: "Nombre Completo",
+      type: "developer",
       isVerified: true,
-      role: "ADMIN/COLLABORATOR/MODERATOR/DEFAULT",
+      role: "ADMIN",
     },
   ];
 
   const selectUser = ({ email }) => {
+    searchParams.delete("selectedUserEmail");
     setSearchParams({ selectedUserEmail: email });
   };
 
@@ -67,18 +99,20 @@ const Admin = () => {
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <Box gridColumn="span 2">
-        <ButtonGroup color="secondary" size="large" sx={{ p: 0.5 }}>
+        <ButtonGroup color="secondary" size="small" sx={{ p: 0.5 }}>
           <Button
-            disabled={!createUsersMode}
             name="list"
+            disabled={!createUsersMode}
             onClick={handleTabChange}
+            startIcon={<PeopleAltIcon />}
           >
             Listar Usuarios
           </Button>
           <Button
-            disabled={createUsersMode}
             name="create"
+            disabled={createUsersMode}
             onClick={handleTabChange}
+            startIcon={<PeopleAltIcon />}
           >
             Crear Usuario
           </Button>

@@ -3,9 +3,8 @@ import API from "./_index";
 // OBTENER VALORES ENUM PARA MODELO USUARIO
 export const fetchUserEnums = async () => {
   try {
-    const { data } = await API(`users_enumdata/`);
+    const { data } = await API(`users_enumdata`);
 
-    console.log(data, "data");
     return data;
   } catch (error) {
     console.log(error);
