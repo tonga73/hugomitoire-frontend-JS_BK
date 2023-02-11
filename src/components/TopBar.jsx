@@ -157,9 +157,7 @@ export const TopBar = () => {
                   component={Link}
                   to={"/admin"}
                   disableRipple
-                  size="large"
                   sx={{
-                    my: 2,
                     color: "rgba(255, 255, 255, 0.7)",
                     display: "block",
                     textTransform: "capitalize",
