@@ -10,163 +10,138 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 
+import { ChaptersList } from "./ChaptersList";
+
 export const BookDetails = ({ book }) => {
   const [bookChapters, setBookChapters] = useState([]);
 
   return (
-    <div>
+    <Box
+      display="grid"
+      gridTemplateColumns="repeat(5, minmax(0, 1fr))"
+      flexDirection="column"
+      gap={0.9}
+      sx={{
+        "> *": {
+          borderRadius: 1.5,
+        },
+      }}
+    >
       <Box
-        component={Container}
-        display="grid"
-        gap={1.5}
-        gridTemplateColumns={{
-          xs: "repeat(1, minmax(0, 1fr))",
-          sm: "repeat(2, minmax(0, 1fr))",
+        gridColumn="span 3"
+        display="flex"
+        flexDirection="column"
+        p={1.3}
+        sx={{
+          bgcolor: "background.paper",
+          opacity: 0.7,
+          "&:hover": {
+            opacity: 0.9,
+          },
         }}
       >
-        {/* START BOOK DETAILS */}
-        <Box display="flex" flexDirection="column" rowGap={1.5} py={3}>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Edad Recomendada
-            </Typography>
-            <Typography variant="h5" fontFamily="Bellefair">
-              {!!book.ageRange && book.ageRange}
-            </Typography>
-          </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Sinópsis
-            </Typography>
-            <Typography variant="h5" fontFamily="Bellefair">
-              {book.description}
-            </Typography>
-          </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Género
-            </Typography>
-            <Typography variant="h5" fontFamily="Bellefair">
-              {book.genre}
-            </Typography>
-          </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Fecha de Publicación
-            </Typography>
-            <Typography variant="h5" fontFamily="Bellefair">
-              {book.publicationDate}
-            </Typography>
-          </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Ilustraciones
-            </Typography>
-            <Typography variant="h5" fontFamily="Bellefair">
-              {book.illustrator}
-            </Typography>
-          </Box>
-          <Box display="flex" flexDirection="column">
-            <Typography
-              variant="caption"
-              textTransform="uppercase"
-              fontWeight={400}
-              fontFamily="Cinzel"
-            >
-              Editorial
-            </Typography>
-            <Typography variant="h5" fontFamily="Bellefair">
-              {book.publisher}
-            </Typography>
-          </Box>
-        </Box>
-        {/* END BOOK DETAILS */}
-        {/* START BOOK CHAPTERS LIST */}
-        <Box display="flex" flexDirection="column" rowGap={1} py={3}>
+        <Box px={1.5} pb={0.7}>
           <Typography
-            variant="caption"
-            textTransform="uppercase"
-            fontWeight={400}
-            fontFamily="Cinzel"
+            textAlign="center"
+            textTransform="lowercase"
+            sx={{
+              opacity: 0.7,
+            }}
           >
-            Capítulos
+            género
           </Typography>
-
-          {bookChapters === "loading" ? (
-            <Box
-              sx={{
-                animation: "animate 2s infinite",
-                "@keyframes animate": {
-                  "0%": {
-                    opacity: 1,
-                  },
-                  "50%": {
-                    opacity: 0.5,
-                  },
-                  "100%": {
-                    opacity: 1,
-                  },
-                },
-              }}
-            >
-              "Cargando capitulos..."
-            </Box>
-          ) : (
-            <Box>
-              <List disablePadding sx={{ height: "400px", overflow: "scroll" }}>
-                {bookChapters.map((e, index) => (
-                  <ListItem key={index} component="div" disablePadding>
-                    <ListItemButton
-                      onClick={
-                        e.fragmento.length > 5
-                          ? () => alert(e.fragmento)
-                          : undefined
-                      }
-                    >
-                      <ListItemText
-                        primary={
-                          <Typography fontFamily="Bellefair">{`${e.numero_capitulo} | ${e.nombre}`}</Typography>
-                        }
-                      />
-                      {e.fragmento.length > 5 ? (
-                        <ListItemIcon>
-                          <FileOpenIcon />
-                        </ListItemIcon>
-                      ) : undefined}
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-          )}
         </Box>
-        {/* END BOOK CHAPTERS LIST */}
+        <Typography variant="h5">{book.genre.name}</Typography>
       </Box>
-    </div>
+      <Box
+        gridColumn="span 2"
+        display="grid"
+        sx={{
+          placeItems: "center",
+          bgcolor: "background.paper",
+          opacity: 0.7,
+          "&:hover": {
+            opacity: 0.9,
+          },
+        }}
+      >
+        <Typography
+          textAlign="center"
+          textTransform="lowercase"
+          sx={{
+            opacity: 0.7,
+          }}
+        >
+          publicado
+        </Typography>
+        <Typography variant="h6" fontWeight="bold">
+          {book.publicationDate}
+        </Typography>
+      </Box>
+      <Box
+        gridColumn="span 5"
+        minHeight={250}
+        sx={{
+          bgcolor: "background.paper",
+          opacity: 0.7,
+          "&:hover": {
+            opacity: 0.9,
+          },
+        }}
+      >
+        <ChaptersList />
+      </Box>
+      <Box
+        gridColumn="span 5"
+        display="grid"
+        gridTemplateColumns="50% 50%"
+        gap={0.9}
+      >
+        <Box
+          display="grid"
+          sx={{
+            placeItems: "center",
+            bgcolor: "background.paper",
+            opacity: 0.7,
+            "&:hover": {
+              opacity: 0.9,
+            },
+          }}
+        >
+          <Typography
+            textAlign="center"
+            textTransform="lowercase"
+            sx={{
+              opacity: 0.7,
+            }}
+          >
+            Editorial
+          </Typography>
+          <Typography variant="h6">{book.publisher.name}</Typography>
+        </Box>
+        <Box
+          display="grid"
+          sx={{
+            placeItems: "center",
+            bgcolor: "background.paper",
+            opacity: 0.7,
+            "&:hover": {
+              opacity: 0.9,
+            },
+          }}
+        >
+          <Typography
+            textAlign="center"
+            textTransform="lowercase"
+            sx={{
+              opacity: 0.7,
+            }}
+          >
+            Ilustraciones
+          </Typography>
+          <Typography variant="h6">{book.illustrator.name}</Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 };
