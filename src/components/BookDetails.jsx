@@ -23,6 +23,7 @@ export const BookDetails = ({ book }) => {
         gridColumn="span 3"
         display="flex"
         flexDirection="column"
+        justifyContent="space-between"
         p={1.3}
         sx={{
           bgcolor: "background.paper",
@@ -47,7 +48,10 @@ export const BookDetails = ({ book }) => {
       </Box>
       <Box
         gridColumn="span 2"
-        display="grid"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        p={1.3}
         sx={{
           placeItems: "center",
           bgcolor: "background.paper",
@@ -57,16 +61,18 @@ export const BookDetails = ({ book }) => {
           },
         }}
       >
-        <Typography
-          textAlign="center"
-          textTransform="lowercase"
-          sx={{
-            opacity: 0.7,
-          }}
-        >
-          publicado
-        </Typography>
-        <Typography variant="h6" fontWeight="bold">
+        <Box px={1.5} pb={0.7}>
+          <Typography
+            textAlign="center"
+            textTransform="lowercase"
+            sx={{
+              opacity: 0.7,
+            }}
+          >
+            publicado
+          </Typography>
+        </Box>
+        <Typography variant="h5" fontWeight="bold">
           {book.publicationDate}
         </Typography>
       </Box>
