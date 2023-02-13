@@ -11,6 +11,7 @@ export const BookDetails = ({ book }) => {
       display="grid"
       gridTemplateColumns="repeat(5, minmax(0, 1fr))"
       gap={0.9}
+      width="100%"
       minHeight={450}
       sx={{
         "> *": {
@@ -20,12 +21,11 @@ export const BookDetails = ({ book }) => {
       }}
     >
       <Box
-        gridColumn="span 3"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
+        gridColumn={{ xs: "span 12", sm: "span 3" }}
+        display="grid"
         p={1.3}
         sx={{
+          placeItems: "center",
           bgcolor: "background.paper",
           opacity: 0.7,
           "&:hover": {
@@ -47,10 +47,8 @@ export const BookDetails = ({ book }) => {
         <Typography variant="h5">{book.genre.name}</Typography>
       </Box>
       <Box
-        gridColumn="span 2"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
+        gridColumn={{ xs: "span 12", sm: "span 2" }}
+        display="grid"
         p={1.3}
         sx={{
           placeItems: "center",
@@ -77,7 +75,7 @@ export const BookDetails = ({ book }) => {
         </Typography>
       </Box>
       <Box
-        gridColumn="span 5"
+        gridColumn={{ xs: "span 12", sm: "span 5" }}
         minHeight={250}
         sx={{
           bgcolor: "background.paper",
@@ -90,15 +88,19 @@ export const BookDetails = ({ book }) => {
         <ChaptersList />
       </Box>
       <Box
-        gridColumn="span 5"
-        display="grid"
-        gridTemplateColumns="49% 49%"
-        justifyContent="space-between"
+        gridColumn={{ xs: "span 12", sm: "span 5" }}
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        justifyContent="space-evenly"
+        gap={1}
       >
         <Box
-          display="grid"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
           sx={{
-            placeItems: "center",
             bgcolor: "background.paper",
             opacity: 0.7,
             "&:hover": {
@@ -118,10 +120,12 @@ export const BookDetails = ({ book }) => {
           <Typography variant="h6">{book.publisher.name}</Typography>
         </Box>
         <Box
-          display="grid"
-          gridColumn="span 1"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
           sx={{
-            placeItems: "center",
             bgcolor: "background.paper",
             opacity: 0.7,
             "&:hover": {

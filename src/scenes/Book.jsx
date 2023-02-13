@@ -45,9 +45,27 @@ const Book = () => {
     setActiveTab(tabValue);
   }
 
+  const TabsButtons = () => {
+    return (
+      <ButtonGroup fullWidth color="secondary" size="large">
+        {tabs.map((tab, index) => (
+          <Button
+            key={index}
+            name={tab.value}
+            disabled={activeTab === tab.value}
+            onClick={() => toggleActiveTab(tab.value)}
+            startIcon={tab.icon}
+          >
+            {tab.label}
+          </Button>
+        ))}
+      </ButtonGroup>
+    );
+  };
+
   useEffect(() => {
     dispatch(getBook(params.id));
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [dispatch, getBook]);
 
   return (
@@ -81,13 +99,18 @@ const Book = () => {
               >
                 {/* FIRST SECTION */}
                 <Box
-                  display="flex"
-                  alignItems="center"
-                  gridColumn={{ xs: "span 5", sm: "span 7" }}
+                  gridColumn={{ xs: "span 12", lg: "span 7" }}
+                  display="grid"
+                  gridTemplateColumns={"repeat(4, 1fr)"}
+                  p={{ xs: 1.5, lg: 0 }}
+                  sx={{ placeItems: "center" }}
                 >
                   {activeTab === "details" ? (
                     <>
-                      <Box display="flex">
+                      <Box
+                        gridColumn={{ xs: "span 12", sm: "span 2" }}
+                        display="flex"
+                      >
                         <Box
                           component="img"
                           height="330px"
@@ -95,10 +118,11 @@ const Book = () => {
                         />
                       </Box>
                       <Box
+                        gridColumn={{ xs: "span 12", sm: "span 2" }}
                         display="flex"
                         flexDirection="column"
-                        px={{ xs: 3, sm: 1 }}
-                        py={{ xs: 3, sm: 0 }}
+                        px={{ xs: 1.5, lg: 1 }}
+                        py={{ xs: 1.5, lg: 0 }}
                       >
                         <Box display="flex" gap={1.5} alignItems="center">
                           <Typography
@@ -143,30 +167,18 @@ const Book = () => {
 
                 {/* SECOND SECTION */}
                 <Box
+                  gridColumn={{ xs: "span 12", lg: "span 5" }}
                   display="grid"
-                  gridColumn={{ xs: "span 5", sm: "span 5" }}
                   minHeight={531}
                 >
                   <Box
                     gridColumn={{
                       xs: "span 5",
-                      sm: activeTab === "details" ? "span 12" : "span 12",
+                      lg: activeTab === "details" ? "span 12" : "span 12",
                     }}
                   >
                     <Box p={1.5}>
-                      <ButtonGroup fullWidth color="secondary" size="large">
-                        {tabs.map((tab, index) => (
-                          <Button
-                            key={index}
-                            name={tab.value}
-                            disabled={activeTab === tab.value}
-                            onClick={() => toggleActiveTab(tab.value)}
-                            startIcon={tab.icon}
-                          >
-                            {tab.label}
-                          </Button>
-                        ))}
-                      </ButtonGroup>
+                      <TabsButtons />
                     </Box>
                     <Box display="flex" minHeight={450}>
                       <BookDetails book={book} />
