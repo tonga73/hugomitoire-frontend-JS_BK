@@ -20,6 +20,19 @@ import { selectBook } from "../store/slices/book.slice";
 
 import { getBook } from "../store/actions/book.actions";
 
+const tabs = [
+  {
+    label: "detalles",
+    value: "details",
+    icon: <DetailsIcon />,
+  },
+  {
+    label: "imagenes",
+    value: "images",
+    icon: <PermMediaIcon />,
+  },
+];
+
 const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -28,18 +41,8 @@ const Book = () => {
 
   const book = useSelector(selectBook);
 
-  function toggleActiveTab(e) {
-    switch (e.target.name) {
-      case "details":
-        setActiveTab(e.target.name);
-        break;
-      case "images":
-        setActiveTab(e.target.name);
-        break;
-
-      default:
-        break;
-    }
+  function toggleActiveTab(tabValue) {
+    setActiveTab(tabValue);
   }
 
   useEffect(() => {
@@ -152,29 +155,21 @@ const Book = () => {
                   >
                     <Box p={1.5}>
                       <ButtonGroup fullWidth color="secondary" size="large">
-                        <Button
-                          name="details"
-                          disabled={activeTab === "details"}
-                          onClick={toggleActiveTab}
-                          startIcon={<DetailsIcon />}
-                        >
-                          detalles
-                        </Button>
-                        <Button
-                          name="images"
-                          disabled={activeTab === "images"}
-                          onClick={toggleActiveTab}
-                          startIcon={<PermMediaIcon />}
-                        >
-                          imagenes
-                        </Button>
+                        {tabs.map((tab, index) => (
+                          <Button
+                            key={index}
+                            name={tab.value}
+                            disabled={activeTab === tab.value}
+                            onClick={() => toggleActiveTab(tab.value)}
+                            startIcon={tab.icon}
+                          >
+                            {tab.label}
+                          </Button>
+                        ))}
                       </ButtonGroup>
                     </Box>
                     <Box display="flex" minHeight={450}>
-                      <BookDetails
-                        book={book}
-                        hideComponent={activeTab !== "details"}
-                      />
+                      <BookDetails book={book} />
                     </Box>
                   </Box>
                 </Box>

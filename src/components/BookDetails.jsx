@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 import { ChaptersList } from "./ChaptersList";
 
-export const BookDetails = ({ book, hideComponent }) => {
+export const BookDetails = ({ book }) => {
   return (
     <Box
       display="grid"
