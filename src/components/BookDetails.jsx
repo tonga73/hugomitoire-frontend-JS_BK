@@ -12,7 +12,6 @@ export const BookDetails = ({ book }) => {
       gridTemplateColumns="repeat(5, minmax(0, 1fr))"
       gap={0.9}
       width="100%"
-      minHeight={450}
       sx={{
         "> *": {
           borderRadius: 1.1,
