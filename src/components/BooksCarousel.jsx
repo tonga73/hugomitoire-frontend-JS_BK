@@ -22,7 +22,7 @@ export const BooksCarousel = ({ dataBook }) => {
         minHeight: "100vh",
         backgroundImage: `url(${
           import.meta.env.VITE_API_URL +
-          dataBook[currentIndex].secondaryImage.path.replace("uploads", "")
+          dataBook[currentIndex].secondaryImage.url
         })`,
         backgroundSize: "cover",
         backgroundPosition: { xs: "30%", sm: "35%", md: "center" },
@@ -82,8 +82,7 @@ export const BooksCarousel = ({ dataBook }) => {
             <Box
               component="img"
               src={
-                import.meta.env.VITE_API_URL +
-                dataBook[currentIndex].cover.path.replace("uploads", "")
+                import.meta.env.VITE_API_URL + dataBook[currentIndex].cover.url
               }
               onClick={navigateToBook}
               sx={{
@@ -110,8 +109,8 @@ export const BooksCarousel = ({ dataBook }) => {
               }
               src={
                 currentIndex < dataBook.length - 1
-                  ? dataBook[currentIndex + 1].cover.path.replace("uploads", "")
-                  : dataBook[0].cover.path.replace("uploads", "")
+                  ? dataBook[currentIndex + 1].cover.url
+                  : dataBook[0].cover.url
               }
               sx={{
                 maskSize: "100%",
