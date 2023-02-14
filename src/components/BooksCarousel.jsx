@@ -5,11 +5,17 @@ import { Grid, Box, Typography, Button } from "@mui/material";
 
 import { motion } from "framer-motion";
 
+import { Loading } from "./Loading";
+
 export const BooksCarousel = ({ dataBook }) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const navigateToBook = () => navigate(`/libro/${dataBook[currentIndex].id}`);
+
+  if (!dataBook[0].secondaryImage || !dataBook[0].cover) {
+    return <Loading />;
+  }
 
   return (
     <Box
@@ -109,8 +115,9 @@ export const BooksCarousel = ({ dataBook }) => {
               }
               src={
                 currentIndex < dataBook.length - 1
-                  ? dataBook[currentIndex + 1].cover.url
-                  : dataBook[0].cover.url
+                  ? import.meta.env.VITE_API_URL +
+                    dataBook[currentIndex + 1].cover.url
+                  : import.meta.env.VITE_API_URL + dataBook[0].cover.url
               }
               sx={{
                 maskSize: "100%",
