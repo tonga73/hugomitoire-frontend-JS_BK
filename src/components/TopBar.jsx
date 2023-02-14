@@ -114,8 +114,8 @@ export const TopBar = () => {
             <Typography
               variant="h3"
               noWrap
-              component="a"
-              href=""
+              component={Link}
+              to="/"
               sx={{
                 display: { xs: "none", md: "flex" },
                 fontFamily: "Cinzel",
@@ -124,15 +124,14 @@ export const TopBar = () => {
                 color: "inherit",
                 textDecoration: "none",
               }}
-              onClick={() => navigate("/")}
             >
               Hugo Mitoire
             </Typography>
             <Typography
               variant="h5"
               noWrap
-              component="a"
-              href=""
+              component={Link}
+              to="/"
               sx={{
                 display: { xs: "flex", md: "none" },
                 fontFamily: "Cinzel",
@@ -140,7 +139,6 @@ export const TopBar = () => {
                 color: "inherit",
                 textDecoration: "none",
               }}
-              onClick={() => navigate("/")}
             >
               Hugo Mitoire
             </Typography>
