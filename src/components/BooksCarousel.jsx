@@ -9,6 +9,8 @@ export const BooksCarousel = ({ dataBook }) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const navigateToBook = () => navigate(`/libro/${dataBook[currentIndex].id}`);
+
   return (
     <Box
       component={motion.div}
@@ -20,7 +22,7 @@ export const BooksCarousel = ({ dataBook }) => {
         minHeight: "100vh",
         backgroundImage: `url(${
           import.meta.env.VITE_API_URL +
-          dataBook[currentIndex].secondaryImage.url
+          dataBook[currentIndex].secondaryImage.path.replace("uploads", "")
         })`,
         backgroundSize: "cover",
         backgroundPosition: { xs: "30%", sm: "35%", md: "center" },
@@ -80,9 +82,10 @@ export const BooksCarousel = ({ dataBook }) => {
             <Box
               component="img"
               src={
-                import.meta.env.VITE_API_URL + dataBook[currentIndex].cover.url
+                import.meta.env.VITE_API_URL +
+                dataBook[currentIndex].cover.path.replace("uploads", "")
               }
-              onClick={() => navigate(`/libro/${dataBook[currentIndex].id}`)}
+              onClick={navigateToBook}
               sx={{
                 height: {
                   xs: `clamp(23rem, 1vw + 1rem, 2.2rem)`,
@@ -107,8 +110,8 @@ export const BooksCarousel = ({ dataBook }) => {
               }
               src={
                 currentIndex < dataBook.length - 1
-                  ? dataBook[currentIndex + 1].image
-                  : dataBook[0].image
+                  ? dataBook[currentIndex + 1].cover.path.replace("uploads", "")
+                  : dataBook[0].cover.path.replace("uploads", "")
               }
               sx={{
                 maskSize: "100%",
@@ -161,7 +164,12 @@ export const BooksCarousel = ({ dataBook }) => {
           >
             {dataBook[currentIndex].description}
           </Typography>
-          <Button size="large" variant="contained" sx={{ placeSelf: "end" }}>
+          <Button
+            onClick={navigateToBook}
+            size="large"
+            variant="contained"
+            sx={{ placeSelf: "end" }}
+          >
             Ver Libro
           </Button>
         </Grid>

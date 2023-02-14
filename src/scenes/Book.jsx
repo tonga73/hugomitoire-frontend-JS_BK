@@ -80,7 +80,8 @@ const Book = () => {
             }
             sx={{
               backgroundImage: `url(${
-                import.meta.env.VITE_API_URL + book.secondaryImage.url
+                import.meta.env.VITE_API_URL +
+                book.secondaryImage.path.replace("uploads", "")
               })`,
               backgroundPosition: "center 60%",
               backgroundRepeat: "no-repeat",
@@ -114,7 +115,10 @@ const Book = () => {
                         <Box
                           component="img"
                           height="330px"
-                          src={import.meta.env.VITE_API_URL + book.cover.url}
+                          src={
+                            import.meta.env.VITE_API_URL +
+                            book.cover.path.replace("uploads", "")
+                          }
                         />
                       </Box>
                       <Box

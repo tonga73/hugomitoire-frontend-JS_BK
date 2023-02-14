@@ -52,7 +52,10 @@ const Books = () => {
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
                 elevation={3}
-                src={import.meta.env.VITE_API_URL + book.cover.url}
+                src={
+                  import.meta.env.VITE_API_URL +
+                  book.cover.path.replace("uploads", "")
+                }
                 sx={{ width: "100%", height: "100%" }}
               />
             </Box>
