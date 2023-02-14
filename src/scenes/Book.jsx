@@ -20,6 +20,19 @@ import { selectBook } from "../store/slices/book.slice";
 
 import { getBook } from "../store/actions/book.actions";
 
+const tabs = [
+  {
+    label: "detalles",
+    value: "details",
+    icon: <DetailsIcon />,
+  },
+  {
+    label: "imagenes",
+    value: "images",
+    icon: <PermMediaIcon />,
+  },
+];
+
 const Book = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -28,23 +41,31 @@ const Book = () => {
 
   const book = useSelector(selectBook);
 
-  function toggleActiveTab(e) {
-    switch (e.target.name) {
-      case "details":
-        setActiveTab(e.target.name);
-        break;
-      case "images":
-        setActiveTab(e.target.name);
-        break;
-
-      default:
-        break;
-    }
+  function toggleActiveTab(tabValue) {
+    setActiveTab(tabValue);
   }
+
+  const TabsButtons = () => {
+    return (
+      <ButtonGroup fullWidth color="secondary" size="large">
+        {tabs.map((tab, index) => (
+          <Button
+            key={index}
+            name={tab.value}
+            disabled={activeTab === tab.value}
+            onClick={() => toggleActiveTab(tab.value)}
+            startIcon={tab.icon}
+          >
+            {tab.label}
+          </Button>
+        ))}
+      </ButtonGroup>
+    );
+  };
 
   useEffect(() => {
     dispatch(getBook(params.id));
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, [dispatch, getBook]);
 
   return (
@@ -59,7 +80,8 @@ const Book = () => {
             }
             sx={{
               backgroundImage: `url(${
-                import.meta.env.VITE_API_URL + book.secondaryImage.url
+                import.meta.env.VITE_API_URL +
+                book.secondaryImage.path.replace("uploads", "")
               })`,
               backgroundPosition: "center 60%",
               backgroundRepeat: "no-repeat",
@@ -78,24 +100,33 @@ const Book = () => {
               >
                 {/* FIRST SECTION */}
                 <Box
-                  display="flex"
-                  alignItems="center"
-                  gridColumn={{ xs: "span 5", sm: "span 7" }}
+                  gridColumn={{ xs: "span 12", lg: "span 7" }}
+                  display="grid"
+                  gridTemplateColumns={"repeat(4, 1fr)"}
+                  p={{ xs: 1.5, lg: 0 }}
+                  sx={{ placeItems: "center" }}
                 >
                   {activeTab === "details" ? (
                     <>
-                      <Box display="flex">
+                      <Box
+                        gridColumn={{ xs: "span 12", sm: "span 2" }}
+                        display="flex"
+                      >
                         <Box
                           component="img"
                           height="330px"
-                          src={import.meta.env.VITE_API_URL + book.cover.url}
+                          src={
+                            import.meta.env.VITE_API_URL +
+                            book.cover.path.replace("uploads", "")
+                          }
                         />
                       </Box>
                       <Box
+                        gridColumn={{ xs: "span 12", sm: "span 2" }}
                         display="flex"
                         flexDirection="column"
-                        px={{ xs: 3, sm: 1 }}
-                        py={{ xs: 3, sm: 0 }}
+                        px={{ xs: 1.5, lg: 1 }}
+                        py={{ xs: 1.5, lg: 0 }}
                       >
                         <Box display="flex" gap={1.5} alignItems="center">
                           <Typography
@@ -140,41 +171,21 @@ const Book = () => {
 
                 {/* SECOND SECTION */}
                 <Box
+                  gridColumn={{ xs: "span 12", lg: "span 5" }}
                   display="grid"
-                  gridColumn={{ xs: "span 5", sm: "span 5" }}
                   minHeight={531}
                 >
                   <Box
                     gridColumn={{
                       xs: "span 5",
-                      sm: activeTab === "details" ? "span 12" : "span 12",
+                      lg: activeTab === "details" ? "span 12" : "span 12",
                     }}
                   >
                     <Box p={1.5}>
-                      <ButtonGroup fullWidth color="secondary" size="large">
-                        <Button
-                          name="details"
-                          disabled={activeTab === "details"}
-                          onClick={toggleActiveTab}
-                          startIcon={<DetailsIcon />}
-                        >
-                          detalles
-                        </Button>
-                        <Button
-                          name="images"
-                          disabled={activeTab === "images"}
-                          onClick={toggleActiveTab}
-                          startIcon={<PermMediaIcon />}
-                        >
-                          imagenes
-                        </Button>
-                      </ButtonGroup>
+                      <TabsButtons />
                     </Box>
                     <Box display="flex" minHeight={450}>
-                      <BookDetails
-                        book={book}
-                        hideComponent={activeTab !== "details"}
-                      />
+                      <BookDetails book={book} />
                     </Box>
                   </Box>
                 </Box>

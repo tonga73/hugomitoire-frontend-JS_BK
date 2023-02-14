@@ -5,13 +5,13 @@ import Typography from "@mui/material/Typography";
 
 import { ChaptersList } from "./ChaptersList";
 
-export const BookDetails = ({ book, hideComponent }) => {
+export const BookDetails = ({ book }) => {
   return (
     <Box
       display="grid"
       gridTemplateColumns="repeat(5, minmax(0, 1fr))"
       gap={0.9}
-      minHeight={450}
+      width="100%"
       sx={{
         "> *": {
           borderRadius: 1.1,
@@ -20,11 +20,11 @@ export const BookDetails = ({ book, hideComponent }) => {
       }}
     >
       <Box
-        gridColumn="span 3"
-        display="flex"
-        flexDirection="column"
+        gridColumn={{ xs: "span 12", sm: "span 3" }}
+        display="grid"
         p={1.3}
         sx={{
+          placeItems: "center",
           bgcolor: "background.paper",
           opacity: 0.7,
           "&:hover": {
@@ -46,8 +46,9 @@ export const BookDetails = ({ book, hideComponent }) => {
         <Typography variant="h5">{book.genre.name}</Typography>
       </Box>
       <Box
-        gridColumn="span 2"
+        gridColumn={{ xs: "span 12", sm: "span 2" }}
         display="grid"
+        p={1.3}
         sx={{
           placeItems: "center",
           bgcolor: "background.paper",
@@ -57,21 +58,23 @@ export const BookDetails = ({ book, hideComponent }) => {
           },
         }}
       >
-        <Typography
-          textAlign="center"
-          textTransform="lowercase"
-          sx={{
-            opacity: 0.7,
-          }}
-        >
-          publicado
-        </Typography>
-        <Typography variant="h6" fontWeight="bold">
+        <Box px={1.5} pb={0.7}>
+          <Typography
+            textAlign="center"
+            textTransform="lowercase"
+            sx={{
+              opacity: 0.7,
+            }}
+          >
+            publicado
+          </Typography>
+        </Box>
+        <Typography variant="h5" fontWeight="bold">
           {book.publicationDate}
         </Typography>
       </Box>
       <Box
-        gridColumn="span 5"
+        gridColumn={{ xs: "span 12", sm: "span 5" }}
         minHeight={250}
         sx={{
           bgcolor: "background.paper",
@@ -84,15 +87,19 @@ export const BookDetails = ({ book, hideComponent }) => {
         <ChaptersList />
       </Box>
       <Box
-        gridColumn="span 5"
-        display="grid"
-        gridTemplateColumns="49% 49%"
-        justifyContent="space-between"
+        gridColumn={{ xs: "span 12", sm: "span 5" }}
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        justifyContent="space-evenly"
+        gap={1}
       >
         <Box
-          display="grid"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
           sx={{
-            placeItems: "center",
             bgcolor: "background.paper",
             opacity: 0.7,
             "&:hover": {
@@ -112,10 +119,12 @@ export const BookDetails = ({ book, hideComponent }) => {
           <Typography variant="h6">{book.publisher.name}</Typography>
         </Box>
         <Box
-          display="grid"
-          gridColumn="span 1"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
           sx={{
-            placeItems: "center",
             bgcolor: "background.paper",
             opacity: 0.7,
             "&:hover": {
